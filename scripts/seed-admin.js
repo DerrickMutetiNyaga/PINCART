@@ -1,7 +1,7 @@
 const { MongoClient } = require('mongodb')
 const bcrypt = require('bcryptjs')
 
-const MONGODB_URI = 'mongodb+srv://pinkcartkenya:pinkcartkenya@cluster0.tqsotdc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/pinkcart'
 
 async function seedAdmin() {
   const client = new MongoClient(MONGODB_URI)
