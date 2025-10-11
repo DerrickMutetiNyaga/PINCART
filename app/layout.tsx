@@ -1,29 +1,22 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Poppins } from "next/font/google"
-import { Crimson_Pro } from "next/font/google"
+import { GeistSans } from "geist/font/sans"
+import { Fredoka } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
+import { AuthProvider } from "@/lib/auth-context"
+import { BottomNavigation } from "@/components/bottom-navigation"
 import "./globals.css"
 
-const poppins = Poppins({
+const fredoka = Fredoka({
   subsets: ["latin"],
-  display: "swap",
-  variable: "--font-poppins",
-  weight: ["300", "400", "500", "600", "700"],
-})
-
-const crimsonPro = Crimson_Pro({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-crimson-pro",
-  style: ["italic"],
+  variable: "--font-fredoka",
   weight: ["300", "400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
-  title: "Pink Cart Girlies - Coming Soon 💕",
-  description: "Your Pink Cart is Almost Here! Shopping smarter, cuter, and together with the girlie gang.",
+  title: "Pinkcart - Let's Ship Together",
+  description: "Cute Finds, Lower Shipping, Community Vibes",
   generator: "v0.app",
 }
 
@@ -34,8 +27,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${poppins.variable} ${crimsonPro.variable}`}>
-        <Suspense fallback={null}>{children}</Suspense>
+      <body className={`font-sans ${GeistSans.variable} ${fredoka.variable} pb-20 md:pb-0`}>
+        <AuthProvider>
+          <Suspense fallback={null}>{children}</Suspense>
+        </AuthProvider>
+        <BottomNavigation />
         <Analytics />
       </body>
     </html>

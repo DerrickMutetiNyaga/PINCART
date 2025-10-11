@@ -3,42 +3,41 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Updated theme to soft pink, lilac, and white color palette for dreamy, cute aesthetic */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: oklch(0.99 0.01 330);
+  --foreground: oklch(0.3 0.05 330);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.3 0.05 330);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.3 0.05 330);
+  --primary: oklch(0.75 0.15 330);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.8 0.12 290);
+  --secondary-foreground: oklch(0.3 0.05 330);
+  --muted: oklch(0.96 0.02 330);
+  --muted-foreground: oklch(0.55 0.05 330);
+  --accent: oklch(0.85 0.1 310);
+  --accent-foreground: oklch(0.3 0.05 330);
   --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-  --font-poppins: "Poppins", sans-serif;
-  --font-crimson-pro: "Crimson Pro", serif;
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.03 330);
+  --input: oklch(0.95 0.02 330);
+  --ring: oklch(0.75 0.15 330);
+  --chart-1: oklch(0.75 0.15 330);
+  --chart-2: oklch(0.8 0.12 290);
+  --chart-3: oklch(0.85 0.1 310);
+  --chart-4: oklch(0.7 0.18 340);
+  --chart-5: oklch(0.82 0.08 280);
+  --radius: 1.25rem;
+  --sidebar: oklch(0.99 0.01 330);
+  --sidebar-foreground: oklch(0.3 0.05 330);
+  --sidebar-primary: oklch(0.75 0.15 330);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.96 0.02 330);
+  --sidebar-accent-foreground: oklch(0.3 0.05 330);
+  --sidebar-border: oklch(0.92 0.03 330);
+  --sidebar-ring: oklch(0.75 0.15 330);
 }
 
 .dark {
@@ -77,8 +76,8 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-poppins);
-  --font-serif: var(--font-crimson-pro);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -126,321 +125,273 @@
   }
 }
 
-/* Adding custom animations for Pink Cart Girlies */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
+@layer components {
+  .btn-gradient {
+    background: linear-gradient(135deg, oklch(0.75 0.15 330) 0%, oklch(0.8 0.12 290) 100%);
+    transition: all 0.3s ease;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes float {
-  0%,
-  100% {
-    transform: translateY(0px);
+  .btn-gradient:hover {
+    box-shadow: 0 0 20px oklch(0.75 0.15 330 / 0.5);
+    transform: translateY(-2px);
   }
-  50% {
-    transform: translateY(-10px);
-  }
-}
 
-/* Adding new animations for Pink Cart Girlies landing page */
-@keyframes pulse-bg {
-  0%,
-  100% {
-    background-position: 0% 50%;
+  .sparkle {
+    animation: sparkle 2s ease-in-out infinite;
   }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
-@keyframes glow {
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+  @keyframes sparkle {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(0.8);
+    }
   }
-  50% {
-    box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
-  }
-}
 
-.animate-fade-in {
-  animation: fade-in 1s ease-out;
-}
+  .float {
+    animation: float 3s ease-in-out infinite;
+  }
 
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
 
-.animate-pulse-bg {
-  background-size: 200% 200%;
-  animation: pulse-bg 8s ease-in-out infinite;
-}
+  /* Enhanced Responsive Utilities */
+  .container-responsive {
+    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+  }
 
-.hover\:glow:hover {
-  animation: glow 2s ease-in-out infinite;
-}
+  .text-responsive-xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl;
+  }
 
-/* Adding floating animation for girly icons */
+  .text-responsive-lg {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl;
+  }
 
-/* Enhanced animations for the redesigned page */
-@keyframes gradient-x {
-  0%, 100% {
-    background-position: 0% 50%;
+  .text-responsive-md {
+    @apply text-lg sm:text-xl md:text-2xl lg:text-3xl;
   }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
-@keyframes bounce-gentle {
-  0%, 100% {
-    transform: translateY(0);
+  .text-responsive-sm {
+    @apply text-sm sm:text-base md:text-lg;
   }
-  50% {
-    transform: translateY(-5px);
-  }
-}
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+  .padding-responsive {
+    @apply p-4 sm:p-6 md:p-8 lg:p-12;
   }
-  100% {
-    background-position: 200% 0;
-  }
-}
 
-@keyframes scale-in {
-  0% {
-    transform: scale(0.9);
-    opacity: 0;
+  .padding-y-responsive {
+    @apply py-8 sm:py-12 md:py-16 lg:py-20;
   }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
 
-@keyframes slide-up {
-  0% {
-    transform: translateY(30px);
-    opacity: 0;
+  .padding-x-responsive {
+    @apply px-4 sm:px-6 md:px-8 lg:px-12;
   }
-  100% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
-.animate-gradient-x {
-  background-size: 200% 200%;
-  animation: gradient-x 3s ease infinite;
-}
+  .gap-responsive {
+    @apply gap-4 sm:gap-6 md:gap-8 lg:gap-12;
+  }
 
-.animate-bounce-gentle {
-  animation: bounce-gentle 2s ease-in-out infinite;
-}
+  .grid-responsive-1 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4;
+  }
 
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
+  .grid-responsive-2 {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3;
+  }
 
-.animate-scale-in {
-  animation: scale-in 0.5s ease-out;
-}
+  .grid-responsive-3 {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3;
+  }
 
-.animate-slide-up {
-  animation: slide-up 0.6s ease-out;
-}
+  .flex-responsive {
+    @apply flex flex-col sm:flex-row;
+  }
 
-/* Enhanced hover effects */
-.hover-lift {
-  transition: all 0.3s ease;
-}
+  .flex-responsive-center {
+    @apply flex flex-col items-center sm:flex-row sm:justify-center;
+  }
 
-.hover-lift:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
+  .flex-responsive-between {
+    @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+  }
 
-/* Glass morphism effect */
-.glass {
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-}
+  .button-responsive {
+    @apply h-10 px-4 py-2 text-sm sm:h-11 sm:px-6 sm:text-base md:h-12 md:px-8;
+  }
 
-/* Enhanced button effects */
-.btn-glow {
-  position: relative;
-  overflow: hidden;
-}
+  .button-responsive-lg {
+    @apply h-12 px-6 py-3 text-base sm:h-14 sm:px-8 sm:text-lg md:h-16 md:px-10 md:text-xl;
+  }
 
-.btn-glow::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s;
-}
+  .card-responsive {
+    @apply rounded-2xl border-2 p-4 sm:rounded-3xl sm:p-6 md:p-8;
+  }
 
-.btn-glow:hover::before {
-  left: 100%;
-}
+  .aspect-responsive {
+    @apply aspect-square sm:aspect-video lg:aspect-square;
+  }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
+  .spacing-responsive {
+    @apply space-y-4 sm:space-y-6 md:space-y-8 lg:space-y-12;
+  }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
+  .text-balance-responsive {
+    @apply text-balance text-sm sm:text-base md:text-lg;
+  }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(to bottom, #ec4899, #8b5cf6);
-  border-radius: 4px;
-}
+  /* Mobile-first responsive typography */
+  .heading-1 {
+    @apply text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl;
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(to bottom, #db2777, #7c3aed);
-}
+  .heading-2 {
+    @apply text-2xl font-bold tracking-tight sm:text-3xl md:text-4xl lg:text-5xl;
+  }
 
-/* Mobile-specific optimizations */
-@media (max-width: 768px) {
-  .mobile-text-center {
-    text-align: center;
+  .heading-3 {
+    @apply text-xl font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl;
   }
-  
-  .mobile-px-4 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  
-  .mobile-py-3 {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-  
-  .mobile-text-sm {
-    font-size: 0.875rem;
-  }
-  
-  .mobile-text-lg {
-    font-size: 1.125rem;
-  }
-  
-  .mobile-text-xl {
-    font-size: 1.25rem;
-  }
-  
-  .mobile-space-y-4 > * + * {
-    margin-top: 1rem;
-  }
-  
-  .mobile-space-y-6 > * + * {
-    margin-top: 1.5rem;
-  }
-}
 
-/* Enhanced mobile form styling */
-@media (max-width: 640px) {
-  .mobile-form-container {
-    margin: 0 1rem;
-    padding: 1.5rem;
+  .heading-4 {
+    @apply text-lg font-bold tracking-tight sm:text-xl md:text-2xl lg:text-3xl;
   }
-  
-  .mobile-input {
-    font-size: 16px; /* Prevents zoom on iOS */
-    padding: 1rem 1.5rem;
-  }
-  
-  .mobile-button {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
-  
-  /* Mobile-specific spacing */
-  .mobile-space-y-2 > * + * {
-    margin-top: 0.5rem;
-  }
-  
-  .mobile-space-y-3 > * + * {
-    margin-top: 0.75rem;
-  }
-  
-  /* Mobile text sizing */
-  .mobile-text-xs {
-    font-size: 0.75rem;
-  }
-  
-  .mobile-text-sm {
-    font-size: 0.875rem;
-  }
-  
-  .mobile-text-base {
-    font-size: 1rem;
-  }
-  
-  /* Mobile padding adjustments */
-  .mobile-p-3 {
-    padding: 0.75rem;
-  }
-  
-  .mobile-p-4 {
-    padding: 1rem;
-  }
-  
-  /* Mobile margin adjustments */
-  .mobile-mt-2 {
-    margin-top: 0.5rem;
-  }
-  
-  .mobile-mt-3 {
-    margin-top: 0.75rem;
-  }
-  
-  .mobile-mb-2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  .mobile-mb-3 {
-    margin-bottom: 0.75rem;
-  }
-}
 
-/* Extra small mobile devices */
-@media (max-width: 375px) {
-  .xs-text-2xl {
-    font-size: 1.5rem;
+  .body-large {
+    @apply text-base sm:text-lg md:text-xl;
   }
-  
-  .xs-text-3xl {
-    font-size: 1.875rem;
+
+  .body-medium {
+    @apply text-sm sm:text-base md:text-lg;
   }
-  
-  .xs-p-3 {
-    padding: 0.75rem;
+
+  .body-small {
+    @apply text-xs sm:text-sm md:text-base;
   }
-  
-  .xs-px-3 {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
+
+  /* Touch-friendly interactive elements */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
   }
-  
-  .xs-py-2 {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+
+  .touch-friendly {
+    @apply min-h-[48px] min-w-[48px] sm:min-h-[44px] sm:min-w-[44px];
+  }
+
+  /* Responsive image containers */
+  .image-container {
+    @apply relative aspect-square overflow-hidden rounded-2xl sm:rounded-3xl;
+  }
+
+  .image-responsive {
+    @apply h-full w-full object-cover transition-transform duration-300;
+  }
+
+  /* Responsive spacing utilities */
+  .section-spacing {
+    @apply py-12 sm:py-16 md:py-20 lg:py-24;
+  }
+
+  .container-spacing {
+    @apply px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16;
+  }
+
+  /* Mobile navigation improvements */
+  .mobile-nav {
+    @apply fixed inset-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60;
+  }
+
+  /* Responsive grid gaps */
+  .grid-gap-responsive {
+    @apply gap-3 sm:gap-4 md:gap-6 lg:gap-8;
+  }
+
+  /* Responsive margins */
+  .margin-responsive {
+    @apply m-4 sm:m-6 md:m-8 lg:m-12;
+  }
+
+  .margin-y-responsive {
+    @apply my-8 sm:my-12 md:my-16 lg:my-20;
+  }
+
+  .margin-x-responsive {
+    @apply mx-4 sm:mx-6 md:mx-8 lg:mx-12;
+  }
+
+  /* Responsive borders and shadows */
+  .border-responsive {
+    @apply border border-border sm:border-2;
+  }
+
+  .shadow-responsive {
+    @apply shadow-sm sm:shadow-md md:shadow-lg;
+  }
+
+  /* Responsive animations */
+  .animate-responsive {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* Responsive focus states */
+  .focus-responsive {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
+  }
+
+  /* Responsive hover states */
+  .hover-responsive {
+    @apply transition-colors duration-200 hover:bg-accent hover:text-accent-foreground;
+  }
+
+  /* Mobile-specific utilities */
+  @media (max-width: 640px) {
+    .mobile-padding {
+      @apply px-4 py-6;
+    }
+    
+    .mobile-text {
+      @apply text-sm leading-relaxed;
+    }
+    
+    .mobile-button {
+      @apply h-12 w-full text-base;
+    }
+    
+    .mobile-card {
+      @apply rounded-xl p-4;
+    }
+  }
+
+  /* Tablet-specific utilities */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    .tablet-grid {
+      @apply grid-cols-2;
+    }
+    
+    .tablet-text {
+      @apply text-base;
+    }
+  }
+
+  /* Desktop-specific utilities */
+  @media (min-width: 1025px) {
+    .desktop-grid {
+      @apply grid-cols-3;
+    }
+    
+    .desktop-text {
+      @apply text-lg;
+    }
   }
 }
