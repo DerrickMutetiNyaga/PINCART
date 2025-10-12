@@ -38,9 +38,9 @@ export default function AboutPage() {
                   <Image src="/founder-elvy.jpg" alt="Elvy, Founder of Pinkcart" fill className="object-cover" />
                 </div>
                 <div className="padding-responsive">
-                  <h2 className="heading-2 mb-4" style={{ fontFamily: "var(--font-fredoka)" }}>
+                  <h3 className="heading-3 mb-4" style={{ fontFamily: "var(--font-fredoka)" }}>
                     Hi, I'm Elvy!
-                  </h2>
+                  </h3>
                   <div className="space-y-4 body-medium text-muted-foreground leading-relaxed">
                     <p>
                       I started Pinkcart because I was tired of paying crazy expensive shipping fees for cute items from

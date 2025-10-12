@@ -7,6 +7,7 @@ import { Suspense } from "react"
 import { AuthProvider } from "@/lib/auth-context"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { PerformanceMonitor } from "@/components/performance-monitor"
+import { StructuredData } from "@/components/structured-data"
 import "./globals.css"
 
 const fredoka = Fredoka({
@@ -18,9 +19,30 @@ const fredoka = Fredoka({
 })
 
 export const metadata: Metadata = {
-  title: "Pinkcart - Let's Ship Together",
-  description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
-  keywords: ["group shipping", "China to Kenya", "cute finds", "affordable shipping", "community shopping", "pinkcart"],
+  title: "Pinkcart - Group Shipping from China to Kenya | Import Cute Finds & Save 60%",
+  description: "Import cute finds from China to Kenya with group shipping. Save up to 60% on shipping costs, join our community, and get access to exclusive deals. Best way to ship from China to Kenya affordably.",
+  keywords: [
+    "group shipping China Kenya",
+    "import from China to Kenya",
+    "China to Kenya shipping",
+    "group buying China",
+    "affordable shipping China Kenya",
+    "cute finds China",
+    "China import community",
+    "shipping from China",
+    "China wholesale Kenya",
+    "group shipping service",
+    "China to Kenya courier",
+    "cheap shipping China Kenya",
+    "import cute items China",
+    "China shopping Kenya",
+    "group shipping platform",
+    "China import Kenya",
+    "shipping China to Nairobi",
+    "China goods Kenya",
+    "import community Kenya",
+    "China shopping group"
+  ],
   authors: [{ name: "Pinkcart Team" }],
   creator: "Pinkcart",
   publisher: "Pinkcart",
@@ -34,16 +56,16 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Pinkcart - Let's Ship Together",
-    description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
+    title: "Pinkcart - Group Shipping from China to Kenya | Save 60% on Shipping",
+    description: "Import cute finds from China to Kenya with group shipping. Save up to 60% on shipping costs, join our community, and get access to exclusive deals. Best way to ship from China to Kenya affordably.",
     url: "https://pinkcart.vercel.app",
-    siteName: "Pinkcart",
+    siteName: "Pinkcart - China to Kenya Group Shipping",
     images: [
       {
         url: "/placeholder-logo.png",
         width: 1200,
         height: 630,
-        alt: "Pinkcart - Group Shipping Community",
+        alt: "Pinkcart - Group Shipping from China to Kenya - Save 60% on Shipping Costs",
       },
     ],
     locale: "en_US",
@@ -51,8 +73,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pinkcart - Let's Ship Together",
-    description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
+    title: "Pinkcart - Group Shipping from China to Kenya | Save 60%",
+    description: "Import cute finds from China to Kenya with group shipping. Save up to 60% on shipping costs, join our community, and get access to exclusive deals.",
     images: ["/placeholder-logo.png"],
   },
   robots: {
@@ -69,6 +91,12 @@ export const metadata: Metadata = {
   verification: {
     google: "your-google-verification-code",
   },
+  other: {
+    "geo.region": "KE",
+    "geo.placename": "Nairobi",
+    "geo.position": "-1.2921;36.8219",
+    "ICBM": "-1.2921, 36.8219",
+  },
 }
 
 export default function RootLayout({
@@ -81,6 +109,8 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" as="style" onLoad="this.onload=null;this.rel='stylesheet'" />
+        <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" /></noscript>
         <link rel="dns-prefetch" href="https://chat.whatsapp.com" />
         <link rel="dns-prefetch" href="https://vercel.live" />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -91,6 +121,18 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/placeholder-logo.png" />
         <link rel="icon" href="/placeholder-logo.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
+        <StructuredData />
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Critical CSS for above-the-fold content */
+            body { font-family: system-ui, -apple-system, sans-serif; }
+            .font-fredoka { font-family: 'Fredoka', system-ui, -apple-system, sans-serif; }
+            /* Prevent layout shift */
+            img { height: auto; max-width: 100%; }
+            /* Loading state */
+            .loading { opacity: 0.7; }
+          `
+        }} />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${fredoka.variable} pb-20 md:pb-0`}>
         <AuthProvider>

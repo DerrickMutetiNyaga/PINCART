@@ -54,15 +54,15 @@ export default function HomePage() {
             className="heading-1 mb-6 text-balance"
             style={{ fontFamily: "var(--font-fredoka)" }}
           >
-            Let&apos;s Ship Together
+            Import from China to Kenya - Group Shipping Made Easy
           </h1>
 
           <p className="body-large mb-8 text-muted-foreground text-balance">
-            Cute Finds, Lower Shipping, Community Vibes
+            Save up to 60% on China to Kenya shipping costs with our group buying community
           </p>
 
           <p className="body-medium mb-8 text-muted-foreground text-balance">
-            Together, we&apos;re making international shipping affordable for everyone.
+            Join thousands of Kenyans importing cute finds from China. Split shipping costs and get your items delivered to Nairobi affordably.
           </p>
 
           <div className="flex-responsive-center mb-8 gap-4">
@@ -91,7 +91,7 @@ export default function HomePage() {
                 <div className="heading-4 text-primary" style={{ fontFamily: "var(--font-fredoka)" }}>
                   120+
                 </div>
-                <div className="body-small text-muted-foreground">Friends Joined Last Shipment</div>
+                <div className="body-small text-muted-foreground">Kenyans Importing from China</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -102,7 +102,7 @@ export default function HomePage() {
                 <div className="heading-4 text-secondary" style={{ fontFamily: "var(--font-fredoka)" }}>
                   50+
                 </div>
-                <div className="body-small text-muted-foreground">Cute Finds Available</div>
+                <div className="body-small text-muted-foreground">China Products Ready to Ship</div>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ export default function HomePage() {
                 <div className="heading-4 text-accent" style={{ fontFamily: "var(--font-fredoka)" }}>
                   60%
                 </div>
-                <div className="body-small text-muted-foreground">Average Savings</div>
+                <div className="body-small text-muted-foreground">Savings on China Shipping</div>
               </div>
             </div>
           </div>
@@ -123,29 +123,29 @@ export default function HomePage() {
       <section className="container-responsive section-spacing">
         <div className="mb-8 text-center">
           <h2 className="heading-2 mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
-            Join Our Community
+            Join Our China Import Community
           </h2>
-          <p className="body-medium text-muted-foreground">Connect with fellow shoppers and get exclusive deals</p>
+          <p className="body-medium text-muted-foreground">Connect with fellow importers and get exclusive China shipping deals</p>
         </div>
 
         <div className="grid-responsive-3 grid-gap-responsive">
           {[
             {
               icon: MessageCircle,
-              title: "Live Updates",
-              description: "Get real-time notifications about new shipments, deals, and community activities.",
+              title: "Live China Shipment Updates",
+              description: "Get real-time notifications about new China shipments, import deals, and group buying opportunities.",
               color: "bg-primary/10 text-primary",
             },
             {
               icon: Users,
-              title: "Community Support",
-              description: "Connect with other shoppers, share finds, and get help from the community.",
+              title: "China Import Support",
+              description: "Connect with other importers, share China finds, and get help with shipping from China to Kenya.",
               color: "bg-secondary/10 text-secondary",
             },
             {
               icon: Sparkles,
-              title: "Exclusive Deals",
-              description: "Access special discounts and early access to new products before they go public.",
+              title: "Exclusive China Deals",
+              description: "Access special discounts on China products and early access to new imports before they go public.",
               color: "bg-accent/10 text-accent",
             },
           ].map((feature, index) => (
@@ -154,7 +154,7 @@ export default function HomePage() {
                 <div className={`mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full ${feature.color}`}>
                   <feature.icon className="h-8 w-8" />
                 </div>
-                <h3 className="heading-4 mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+                <h3 className="heading-3 mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
                   {feature.title}
                 </h3>
                 <p className="body-medium text-muted-foreground leading-relaxed">{feature.description}</p>
@@ -177,29 +177,29 @@ export default function HomePage() {
         <div className="container-responsive">
           <div className="mb-12 text-center">
             <h2 className="heading-2 mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
-              How It Works
+              How to Import from China to Kenya
             </h2>
-            <p className="body-medium text-muted-foreground">Three simple steps to save on shipping</p>
+            <p className="body-medium text-muted-foreground">Three simple steps to save on China to Kenya shipping costs</p>
           </div>
 
           <div className="grid-responsive-3 grid-gap-responsive">
             {[
               {
                 icon: Heart,
-                title: "Pick Your Favorites",
-                description: "Browse our curated collection of cute finds from China and add items to your cart.",
+                title: "Choose China Products",
+                description: "Browse our curated collection of cute finds from China and add items to your import cart.",
                 step: "01",
               },
               {
                 icon: Users,
-                title: "Join the Group",
-                description: "Pay for your items and join others in the group shipment to split shipping costs.",
+                title: "Join Group Shipping",
+                description: "Pay for your China items and join others in the group shipment to split shipping costs from China to Kenya.",
                 step: "02",
               },
               {
                 icon: Package,
-                title: "Receive Your Order",
-                description: "Get your items delivered in 3-4 weeks after the shipment closes. Track every step!",
+                title: "Receive Your China Order",
+                description: "Get your China items delivered to Kenya in 3-4 weeks after the shipment closes. Track every step from China to Nairobi!",
                 step: "03",
               },
             ].map((step, index) => (
@@ -214,7 +214,7 @@ export default function HomePage() {
                   <div className="relative mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
                     <step.icon className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="heading-4 mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+                  <h3 className="heading-3 mb-3" style={{ fontFamily: "var(--font-fredoka)" }}>
                     {step.title}
                   </h3>
                   <p className="body-medium text-muted-foreground leading-relaxed">{step.description}</p>

@@ -122,6 +122,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
   
   /* Critical CSS for above-the-fold content */
@@ -130,18 +131,17 @@
     contain-intrinsic-size: 0 500px;
   }
   
-  /* Optimize font loading */
-  @font-face {
-    font-family: 'Geist Sans';
+  /* Optimize font loading with fallbacks */
+  .font-fredoka {
+    font-family: 'Fredoka', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-display: swap;
-    font-weight: 400;
-    font-style: normal;
   }
   
   /* Reduce layout shift */
   img {
     height: auto;
     max-width: 100%;
+    display: block;
   }
   
   /* Optimize animations for performance */
@@ -153,6 +153,17 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+  
+  /* Improve contrast for accessibility */
+  .text-muted-foreground {
+    color: oklch(0.45 0.05 330) !important;
+  }
+  
+  /* Better heading hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+    font-weight: 600;
   }
 }
 
