@@ -18,7 +18,7 @@ const navigationItems = [
   },
   {
     name: "WhatsApp",
-    href: "https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!",
+    href: "https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt",
     icon: MessageCircle,
     external: true,
     isSpecial: true, // Always highlighted

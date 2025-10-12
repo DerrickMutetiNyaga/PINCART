@@ -35,7 +35,7 @@ export default function HowItWorksPage() {
     {
       question: "What payment methods do you accept?",
       answer:
-        "We accept M-Pesa, credit/debit cards, and PayPal. Payment is required when you join a shipment to secure your spot. All payments are processed securely through our payment partners.",
+        "We accept M-Pesa. Payment is required when you join a shipment to secure your spot. All payments are processed securely through our payment partners.",
     },
     {
       question: "How do I know if a product is good quality?",
@@ -109,7 +109,7 @@ export default function HowItWorksPage() {
                 details: [
                   "Pay securely via M-Pesa",
                   "Get instant confirmation and order number",
-                  "Join our WhatsApp community for updates",
+                  "Join our WhatsApp group for updates",
                   "Track the shipment progress in real-time",
                 ],
                 color: "secondary",
@@ -269,7 +269,7 @@ export default function HowItWorksPage() {
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Button size="lg" className="button-responsive-lg rounded-full px-8" asChild>
-                <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer">
+                <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-5 w-5" />
                   Join Community
                 </a>
@@ -304,17 +304,17 @@ export default function HowItWorksPage() {
               <h4 className="heading-4 mb-4">Community</h4>
               <ul className="spacing-responsive body-small text-muted-foreground">
                 <li>
-                  <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                     Join WhatsApp Group
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                     Get Live Updates
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                     Share Finds
                   </a>
                 </li>

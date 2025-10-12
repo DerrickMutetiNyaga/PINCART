@@ -44,7 +44,7 @@ export function Header() {
               Contact
             </Link>
           <a 
-            href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" 
+            href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" 
             target="_blank" 
             rel="noopener noreferrer"
             className="body-small font-medium transition-colors hover:text-primary text-primary"
@@ -57,7 +57,7 @@ export function Header() {
             asChild 
             className="rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white px-6"
           >
-            <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer">
+            <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
               <MessageCircle className="mr-2 h-4 w-4" />
               Join WhatsApp
             </a>
@@ -81,7 +81,7 @@ export function Header() {
               size="sm"
               className="rounded-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-white px-4"
             >
-              <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer">
+              <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-1 h-4 w-4" />
                 Join
               </a>

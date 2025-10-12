@@ -45,7 +45,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2">
             <Sparkles className="h-4 w-4 text-primary" />
-            <span className="text-sm font-medium text-primary">Join Our WhatsApp Community</span>
+            <span className="text-sm font-medium text-primary">Join Our WhatsApp Group</span>
           </div>
 
           <h1
@@ -65,9 +65,9 @@ export default function HomePage() {
 
           <div className="flex-responsive-center mb-8 gap-4">
             <Button size="lg" className="button-responsive-lg rounded-full px-6 sm:px-8" asChild>
-              <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer">
+              <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="mr-2 h-5 w-5" />
-                Join WhatsApp Community
+                Join WhatsApp Group
               </a>
             </Button>
             <Button size="lg" variant="outline" className="button-responsive-lg rounded-full px-6 sm:px-8 bg-transparent" asChild>
@@ -163,9 +163,9 @@ export default function HomePage() {
 
         <div className="mt-8 text-center">
           <Button size="lg" className="button-responsive-lg rounded-full" asChild>
-            <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer">
+            <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
               <MessageCircle className="mr-2 h-5 w-5" />
-              Join WhatsApp Community Now
+              Join WhatsApp Group Now
             </a>
           </Button>
         </div>
@@ -244,13 +244,13 @@ export default function HomePage() {
               Ready to Start Saving?
             </h2>
             <p className="body-large mb-8 text-muted-foreground text-balance">
-              Join our WhatsApp community and get access to exclusive group shipping deals, live updates, and connect with fellow shoppers!
+              Join our WhatsApp group and get access to exclusive group shipping deals, live updates, and connect with fellow shoppers!
             </p>
             <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
               <Button size="lg" className="button-responsive-lg rounded-full px-8" asChild>
-                <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer">
+                <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Join WhatsApp Community
+                  Join WhatsApp Group
                 </a>
               </Button>
               <Button size="lg" variant="outline" className="button-responsive-lg rounded-full bg-transparent px-8" asChild>
@@ -282,17 +282,17 @@ export default function HomePage() {
               <h4 className="heading-4 mb-4">Community</h4>
               <ul className="spacing-responsive body-small text-muted-foreground">
                 <li>
-                  <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                     Join WhatsApp Group
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                     Get Live Updates
                   </a>
                 </li>
                 <li>
-                  <a href="https://wa.me/254736381425?text=Hi! I'd like to join the Pinkcart community for group shipping deals!" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
+                  <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer" className="hover:text-primary">
                     Share Finds
                   </a>
                 </li>

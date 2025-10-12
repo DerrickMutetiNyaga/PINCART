@@ -216,9 +216,11 @@ export default function ShopPage() {
             <p className="body-large mb-8 text-muted-foreground text-balance">
               The more people who join a shipment, the lower the shipping cost for everyone. Share with your friends!
             </p>
-            <Button size="lg" className="button-responsive-lg rounded-full">
-              Share on WhatsApp
-              <Sparkles className="ml-2 h-5 w-5" />
+            <Button size="lg" className="button-responsive-lg rounded-full" asChild>
+              <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
+                Share on WhatsApp
+                <Sparkles className="ml-2 h-5 w-5" />
+              </a>
             </Button>
           </div>
         </div>
