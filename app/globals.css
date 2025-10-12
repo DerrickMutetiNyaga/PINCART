@@ -123,6 +123,37 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Critical CSS for above-the-fold content */
+  .critical-content {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+  }
+  
+  /* Optimize font loading */
+  @font-face {
+    font-family: 'Geist Sans';
+    font-display: swap;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  /* Reduce layout shift */
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+  
+  /* Optimize animations for performance */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 @layer components {

@@ -171,10 +171,10 @@ export default function AboutPage() {
             </p>
             <div className="flex-responsive-center gap-4">
               <Button size="lg" className="button-responsive-lg rounded-full px-6 sm:px-8" asChild>
-                <Link href="/shop">
+                <a href="https://chat.whatsapp.com/CtFf4VilvRzDeUeRRdTasC?mode=wwt" target="_blank" rel="noopener noreferrer">
                   Start Shopping
                   <Package className="ml-2 h-5 w-5" />
-                </Link>
+                </a>
               </Button>
               <Button size="lg" variant="outline" className="button-responsive-lg rounded-full bg-transparent px-6 sm:px-8" asChild>
                 <Link href="/contact">Get in Touch</Link>

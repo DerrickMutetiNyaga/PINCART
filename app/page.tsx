@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Heart, Package, Sparkles, TrendingUp, Users, MessageCircle } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+import { Suspense } from "react"
 
 export default function HomePage() {
 
