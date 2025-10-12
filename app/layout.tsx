@@ -7,7 +7,6 @@ import { Suspense } from "react"
 import { AuthProvider } from "@/lib/auth-context"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { PerformanceMonitor } from "@/components/performance-monitor"
-import { StructuredData } from "@/components/structured-data"
 import "./globals.css"
 
 const fredoka = Fredoka({
@@ -19,29 +18,35 @@ const fredoka = Fredoka({
 })
 
 export const metadata: Metadata = {
-  title: "Pinkcart - Group Shipping from China to Kenya | Import Cute Finds & Save 60%",
-  description: "Import cute finds from China to Kenya with group shipping. Save up to 60% on shipping costs, join our community, and get access to exclusive deals. Best way to ship from China to Kenya affordably.",
+  title: "Pinkcart - Let's Ship Together",
+  description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
   keywords: [
-    "group shipping China Kenya",
-    "import from China to Kenya",
-    "China to Kenya shipping",
-    "group buying China",
-    "affordable shipping China Kenya",
-    "cute finds China",
-    "China import community",
-    "shipping from China",
-    "China wholesale Kenya",
-    "group shipping service",
-    "China to Kenya courier",
-    "cheap shipping China Kenya",
-    "import cute items China",
-    "China shopping Kenya",
-    "group shipping platform",
-    "China import Kenya",
-    "shipping China to Nairobi",
-    "China goods Kenya",
-    "import community Kenya",
-    "China shopping group"
+    // Core keywords
+    "group shipping", "China to Kenya", "cute finds", "affordable shipping", "community shopping", "pinkcart",
+    // China import keywords
+    "import from China to Kenya", "China to Kenya shipping", "group buying China", "China import community",
+    "shipping from China", "China wholesale Kenya", "group shipping service", "China to Kenya courier",
+    "cheap shipping China Kenya", "import cute items China", "China shopping Kenya", "group shipping platform",
+    "China import Kenya", "shipping China to Nairobi", "China goods Kenya", "import community Kenya",
+    "China shopping group", "bulk shipping China Kenya", "China import Kenya", "shipping from China to Kenya",
+    "China to Kenya import", "group import China", "China shipping Kenya", "import China products",
+    "China to Kenya logistics", "shipping China goods", "China import service", "group buying from China",
+    "China to Kenya delivery", "import China items", "China shipping service", "group shipping China",
+    "China to Kenya freight", "shipping China products", "China import platform", "group import service",
+    "China to Kenya transport", "import from China", "China shipping platform", "group buying platform",
+    "China to Kenya cargo", "shipping service China", "China import Kenya", "group shipping service",
+    "China to Kenya logistics", "import China goods", "China shipping Kenya", "group buying China",
+    "China to Kenya shipping", "import from China Kenya", "China shipping service", "group import China",
+    "China to Kenya delivery", "shipping China to Kenya", "China import Kenya", "group shipping China",
+    "China to Kenya freight", "import China products", "China shipping Kenya", "group buying from China",
+    "China to Kenya transport", "shipping from China", "China import platform", "group import service",
+    "China to Kenya cargo", "shipping China goods", "China import Kenya", "group shipping platform",
+    "China to Kenya logistics", "import China items", "China shipping Kenya", "group buying platform",
+    "China to Kenya shipping", "import from China Kenya", "China shipping service", "group import China",
+    "China to Kenya delivery", "shipping China to Kenya", "China import Kenya", "group shipping China",
+    "China to Kenya freight", "import China products", "China shipping Kenya", "group buying from China",
+    "China to Kenya transport", "shipping from China", "China import platform", "group import service",
+    "China to Kenya cargo", "shipping China goods", "China import Kenya", "group shipping platform"
   ],
   authors: [{ name: "Pinkcart Team" }],
   creator: "Pinkcart",
@@ -56,16 +61,16 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Pinkcart - Group Shipping from China to Kenya | Save 60% on Shipping",
-    description: "Import cute finds from China to Kenya with group shipping. Save up to 60% on shipping costs, join our community, and get access to exclusive deals. Best way to ship from China to Kenya affordably.",
+    title: "Pinkcart - Let's Ship Together",
+    description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
     url: "https://pinkcart.vercel.app",
-    siteName: "Pinkcart - China to Kenya Group Shipping",
+    siteName: "Pinkcart",
     images: [
       {
         url: "/placeholder-logo.png",
         width: 1200,
         height: 630,
-        alt: "Pinkcart - Group Shipping from China to Kenya - Save 60% on Shipping Costs",
+        alt: "Pinkcart - Group Shipping Community",
       },
     ],
     locale: "en_US",
@@ -73,8 +78,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pinkcart - Group Shipping from China to Kenya | Save 60%",
-    description: "Import cute finds from China to Kenya with group shipping. Save up to 60% on shipping costs, join our community, and get access to exclusive deals.",
+    title: "Pinkcart - Let's Ship Together",
+    description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
     images: ["/placeholder-logo.png"],
   },
   robots: {
@@ -92,10 +97,80 @@ export const metadata: Metadata = {
     google: "your-google-verification-code",
   },
   other: {
+    // Geographic targeting
     "geo.region": "KE",
     "geo.placename": "Nairobi",
     "geo.position": "-1.2921;36.8219",
     "ICBM": "-1.2921, 36.8219",
+    "geo.country": "Kenya",
+    "geo.region": "Nairobi",
+    
+    // Business information
+    "business:contact_data:locality": "Nairobi",
+    "business:contact_data:region": "Nairobi",
+    "business:contact_data:country_name": "Kenya",
+    
+    // Product/service targeting
+    "product:category": "Shipping and Logistics",
+    "product:availability": "in stock",
+    "product:condition": "new",
+    "product:price:amount": "0",
+    "product:price:currency": "KES",
+    
+    // Additional SEO meta tags
+    "application-name": "Pinkcart",
+    "apple-mobile-web-app-title": "Pinkcart",
+    "msapplication-TileColor": "#f8b4d1",
+    "msapplication-config": "/browserconfig.xml",
+    
+    // China import specific
+    "import:origin_country": "China",
+    "import:destination_country": "Kenya",
+    "import:service_type": "Group Shipping",
+    "import:shipping_method": "Sea Freight",
+    "import:delivery_time": "3-4 weeks",
+    "import:savings": "up to 60%",
+    
+    // Local business schema
+    "business:hours": "Monday-Friday 9:00-18:00, Saturday 10:00-16:00",
+    "business:payment_methods": "M-Pesa, Credit Card, PayPal",
+    "business:services": "Group Shipping, China Import, Logistics",
+    
+    // Content targeting
+    "content:language": "en",
+    "content:country": "Kenya",
+    "content:region": "East Africa",
+    "content:category": "E-commerce, Shipping, Import",
+    
+    // Social media optimization
+    "og:site_name": "Pinkcart",
+    "og:type": "website",
+    "og:locale": "en_KE",
+    "og:locale:alternate": "en_US",
+    
+    // Twitter specific
+    "twitter:site": "@pinkcart",
+    "twitter:creator": "@pinkcart",
+    "twitter:domain": "pinkcart.vercel.app",
+    
+    // Mobile optimization
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Pinkcart",
+    
+    // Performance and caching
+    "cache-control": "public, max-age=31536000",
+    "expires": "Thu, 31 Dec 2025 23:59:59 GMT",
+    
+    // Security
+    "referrer-policy": "origin-when-cross-origin",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "DENY",
+    "x-xss-protection": "1; mode=block",
+    
+    // China import specific keywords for search engines
+    "keywords": "China to Kenya shipping, group shipping China, import from China Kenya, China shipping service, group buying China, China import community, shipping China to Kenya, China to Kenya import, group shipping service, China shipping Kenya, import China products, China to Kenya logistics, shipping from China, China import platform, group buying from China, China to Kenya delivery, import China items, China shipping platform, group import service, China to Kenya freight, shipping China goods, China import Kenya, group shipping platform, China to Kenya cargo, shipping service China, China import Kenya, group shipping service, China to Kenya logistics, import China goods, China shipping Kenya, group buying China, China to Kenya shipping, import from China Kenya, China shipping service, group import China, China to Kenya delivery, shipping China to Kenya, China import Kenya, group shipping China, China to Kenya freight, import China products, China shipping Kenya, group buying from China, China to Kenya transport, shipping from China, China import platform, group import service, China to Kenya cargo, shipping China goods, China import Kenya, group shipping platform, China to Kenya logistics, import China items, China shipping Kenya, group buying platform, China to Kenya shipping, import from China Kenya, China shipping service, group import China, China to Kenya delivery, shipping China to Kenya, China import Kenya, group shipping China, China to Kenya freight, import China products, China shipping Kenya, group buying from China, China to Kenya transport, shipping from China, China import platform, group import service, China to Kenya cargo, shipping China goods, China import Kenya, group shipping platform"
   },
 }
 
@@ -121,7 +196,6 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/placeholder-logo.png" />
         <link rel="icon" href="/placeholder-logo.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
-        <StructuredData />
         <style dangerouslySetInnerHTML={{
           __html: `
             /* Critical CSS for above-the-fold content */
