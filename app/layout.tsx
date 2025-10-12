@@ -196,6 +196,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/placeholder-logo.png" />
         <link rel="icon" href="/placeholder-logo.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWM0F2S60Y"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-BWM0F2S60Y');
+          `
+        }} />
         <style dangerouslySetInnerHTML={{
           __html: `
             /* Critical CSS for above-the-fold content */
