@@ -58,6 +58,37 @@ export default function ShopPage() {
     fetchRecentNotifications()
   }, [])
 
+  // Show scheduled notifications at specific times with randomized names
+  useEffect(() => {
+    const notificationSchedule = [
+      { time: 5000 },      // 5 seconds
+      { time: 15000 },      // 15 seconds  
+      { time: 21000 },      // 21 seconds
+      { time: 40000 },      // 40 seconds
+      { time: 60000 },      // 1 minute
+      { time: 180000 },     // 3 minutes
+      { time: 360000 },     // 6 minutes (3+3)
+      { time: 540000 }      // 9 minutes
+    ]
+
+    // Shuffle names for this user session
+    const shuffledNames = [...kenyanNames].sort(() => Math.random() - 0.5)
+
+    const timers = notificationSchedule.map(({ time }, index) => {
+      return setTimeout(() => {
+        if (products.length > 0) {
+          const randomName = shuffledNames[index % shuffledNames.length]
+          const randomProduct = products[Math.floor(Math.random() * products.length)]
+          showRealTimeNotification(randomName, randomProduct.name)
+        }
+      }, time)
+    })
+
+    return () => {
+      timers.forEach(timer => clearTimeout(timer))
+    }
+  }, [products.length])
+
   const fetchRecentNotifications = async () => {
     try {
       const response = await fetch('/api/notifications')
@@ -71,7 +102,7 @@ export default function ShopPage() {
           return notificationTime > lastChecked
         })
         
-        // Show new notifications
+        // Show new real notifications immediately to all users
         newNotificationsSinceLastCheck.forEach((notification: any) => {
           showRealTimeNotification(notification.name, notification.productName)
         })
@@ -109,6 +140,7 @@ export default function ShopPage() {
       setNotifications(prev => prev.filter(n => n.id !== id))
     }, 4000)
   }
+
 
   const handleJoinShipment = () => {
     setShowJoinForm(true)
