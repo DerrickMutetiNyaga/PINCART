@@ -34,6 +34,9 @@ export function Header() {
           </Link>
 
           <nav className="flex items-center gap-6">
+            <Link href="/shop" className="body-small font-medium transition-colors hover:text-primary">
+              Shop
+            </Link>
             <Link href="/how-it-works" className="body-small font-medium transition-colors hover:text-primary">
               How It Works
             </Link>
