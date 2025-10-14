@@ -335,48 +335,6 @@ export default function ShopPage() {
         </div>
       </section>
 
-      {/* Join Now Section */}
-      <section className="border-b bg-gradient-to-r from-pink-50 to-purple-50 py-6 sm:py-8">
-        <div className="container-responsive">
-          <Card className="card-responsive bg-white/80 backdrop-blur-sm border-pink-200 shadow-lg">
-            <CardContent className="padding-responsive">
-              <div className="flex-responsive-between gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg">
-                    <Package className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="heading-4 text-gray-900" style={{ fontFamily: "var(--font-fredoka)" }}>
-                      Join Our Community!
-                    </h3>
-                    <p className="body-small text-gray-600">Save money through group shipping</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-pink-600" style={{ fontFamily: "var(--font-fredoka)" }}>
-                      💰
-                    </div>
-                    <p className="text-xs text-gray-600 mt-1">Lower Costs</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600" style={{ fontFamily: "var(--font-fredoka)" }}>
-                      🚚
-                    </div>
-                    <p className="text-xs text-gray-600 mt-1">Fast Shipping</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-pink-600" style={{ fontFamily: "var(--font-fredoka)" }}>
-                      👥
-                    </div>
-                    <p className="text-xs text-gray-600 mt-1">Community</p>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
 
       {/* Category Filter */}
       <section className="border-b py-6 sm:py-8">

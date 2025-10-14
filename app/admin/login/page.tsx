@@ -103,11 +103,6 @@ export default function AdminLogin() {
             </Button>
           </form>
 
-          <div className="mt-6 text-center text-sm text-gray-600">
-            <p>Default admin credentials:</p>
-            <p className="font-mono">admin@pinkcart.com</p>
-            <p className="font-mono">SuperSecureAdmin123!</p>
-          </div>
         </CardContent>
       </Card>
     </div>
