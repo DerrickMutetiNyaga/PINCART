@@ -9,6 +9,32 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 
+// Google Analytics tracking functions
+declare global {
+  interface Window {
+    gtag: (...args: any[]) => void
+  }
+}
+
+const trackEvent = (action: string, category: string, label?: string, value?: number) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', action, {
+      event_category: category,
+      event_label: label,
+      value: value
+    })
+  }
+}
+
+const trackPageView = (page_title: string, page_location: string) => {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('config', 'G-BWM0F2S60Y', {
+      page_title,
+      page_location
+    })
+  }
+}
+
 const categories = [
   { id: "all", name: "All Finds", icon: Sparkles },
   { id: "girly", name: "Girly Finds", icon: Heart },
@@ -54,6 +80,9 @@ export default function ShopPage() {
 
 
   useEffect(() => {
+    // Track page view
+    trackPageView('Shop Page', window.location.href)
+    
     fetchProducts()
     fetchRecentNotifications()
   }, [])
@@ -143,11 +172,16 @@ export default function ShopPage() {
 
 
   const handleJoinShipment = () => {
+    // Track join form opened
+    trackEvent('begin_checkout', 'ecommerce', selectedProduct?.name || 'unknown_product', selectedProduct?.price)
     setShowJoinForm(true)
   }
 
   const handleWhatsAppRedirect = async () => {
     if (!customerName.trim() || !selectedProduct) return
+
+    // Track successful checkout initiation
+    trackEvent('purchase', 'ecommerce', selectedProduct.name, selectedProduct.price)
 
     try {
       // Save customer data to database
@@ -166,9 +200,12 @@ export default function ShopPage() {
       if (response.ok) {
         // The real-time notification system will automatically show this to all users
         console.log('Customer saved successfully')
+        // Track successful data save
+        trackEvent('add_to_cart', 'ecommerce', selectedProduct.name, selectedProduct.price)
       }
     } catch (error) {
       console.error('Error saving customer:', error)
+      trackEvent('error', 'ecommerce', 'customer_save_failed')
     }
 
     const phoneNumber = "254794269051" // WhatsApp number with country code
@@ -188,6 +225,9 @@ export default function ShopPage() {
     const encodedMessage = encodeURIComponent(message)
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`
     
+    // Track WhatsApp redirect
+    trackEvent('contact', 'ecommerce', 'whatsapp_redirect', selectedProduct.price)
+    
     window.open(whatsappUrl, '_blank')
     setShowJoinForm(false)
     setCustomerName("")
@@ -201,9 +241,14 @@ export default function ShopPage() {
       if (response.ok) {
         const data = await response.json()
         setProducts(data.products || [])
+        // Track successful product load
+        trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
+      } else {
+        trackEvent('error', 'ecommerce', 'product_load_failed')
       }
     } catch (error) {
       console.error('Error fetching products:', error)
+      trackEvent('error', 'ecommerce', 'product_fetch_error')
     } finally {
       setLoading(false)
     }
@@ -213,9 +258,18 @@ export default function ShopPage() {
     selectedCategory === "all" ? products : products.filter((p) => p.category === selectedCategory)
 
   const handleProductClick = (product: Product) => {
+    // Track product view
+    trackEvent('view_item', 'ecommerce', product.name, product.price)
+    
     setSelectedProduct(product)
     setCurrentImageIndex(0)
     setModalOpen(true)
+  }
+
+  const handleCategoryChange = (categoryId: string) => {
+    // Track category filter
+    trackEvent('filter_products', 'ecommerce', categoryId)
+    setSelectedCategory(categoryId)
   }
 
   const nextImage = () => {
@@ -223,6 +277,8 @@ export default function ShopPage() {
       setCurrentImageIndex((prev) => 
         prev === selectedProduct.images!.length - 1 ? 0 : prev + 1
       )
+      // Track image navigation
+      trackEvent('view_item', 'ecommerce', `${selectedProduct.name}_image_${currentImageIndex + 1}`)
     }
   }
 
@@ -245,6 +301,8 @@ export default function ShopPage() {
       setCurrentImageIndex((prev) => 
         prev === 0 ? selectedProduct.images!.length - 1 : prev - 1
       )
+      // Track image navigation
+      trackEvent('view_item', 'ecommerce', `${selectedProduct.name}_image_${currentImageIndex - 1}`)
     }
   }
 
@@ -345,7 +403,7 @@ export default function ShopPage() {
                 key={category.id}
                 variant={selectedCategory === category.id ? "default" : "outline"}
                 className="button-responsive rounded-full"
-                onClick={() => setSelectedCategory(category.id)}
+                onClick={() => handleCategoryChange(category.id)}
               >
                 <category.icon className="mr-2 h-4 w-4" />
                 <span className="hidden sm:inline">{category.name}</span>
@@ -444,17 +502,17 @@ export default function ShopPage() {
               <h4 className="heading-4 mb-4">Browse</h4>
               <ul className="spacing-responsive body-small text-muted-foreground">
                 <li>
-                  <button onClick={() => setSelectedCategory("girly")} className="hover:text-primary">
+                  <button onClick={() => handleCategoryChange("girly")} className="hover:text-primary">
                     Girly Finds
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setSelectedCategory("dorm")} className="hover:text-primary">
+                  <button onClick={() => handleCategoryChange("dorm")} className="hover:text-primary">
                     Dorm Essentials
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => setSelectedCategory("tech")} className="hover:text-primary">
+                  <button onClick={() => handleCategoryChange("tech")} className="hover:text-primary">
                     Tech & Accessories
                   </button>
                 </li>
