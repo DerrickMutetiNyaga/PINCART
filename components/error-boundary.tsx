@@ -27,6 +27,15 @@ export class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo)
+    
+    // Handle chunk loading errors specifically
+    if (error.message.includes('ChunkLoadError') || error.message.includes('Loading chunk')) {
+      console.log('Chunk loading error detected, attempting to reload...')
+      // Force a hard reload to get fresh chunks
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
+    }
   }
 
   handleRetry = () => {

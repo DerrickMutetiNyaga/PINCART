@@ -120,7 +120,20 @@ export default function ShopPage() {
       }
     }, 10000) // 10 second timeout
 
-    return () => clearTimeout(timeout)
+    // Handle chunk loading errors
+    const handleChunkError = (event: ErrorEvent) => {
+      if (event.message.includes('ChunkLoadError') || event.message.includes('Loading chunk')) {
+        console.log('Chunk loading error detected, reloading page...')
+        window.location.reload()
+      }
+    }
+
+    window.addEventListener('error', handleChunkError)
+
+    return () => {
+      clearTimeout(timeout)
+      window.removeEventListener('error', handleChunkError)
+    }
   }, [])
 
   // Show scheduled notifications at specific times with randomized names

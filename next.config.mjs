@@ -43,7 +43,28 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache'
+          },
+          {
+            key: 'Expires',
+            value: '0'
+          },
+          {
+            key: 'Surrogate-Control',
+            value: 'no-store'
+          },
+        ],
+      },
+      {
+        source: '/((?!_next/static|_next/image|favicon.ico).*)',
         headers: [
           {
             key: 'Cache-Control',
@@ -80,23 +101,20 @@ const nextConfig = {
         ],
       },
       {
-        source: '/api/(.*)',
+        source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'
+            value: 'public, max-age=31536000, immutable'
           },
+        ],
+      },
+      {
+        source: '/_next/image/(.*)',
+        headers: [
           {
-            key: 'Pragma',
-            value: 'no-cache'
-          },
-          {
-            key: 'Expires',
-            value: '0'
-          },
-          {
-            key: 'Surrogate-Control',
-            value: 'no-store'
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           },
         ],
       },
