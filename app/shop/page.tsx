@@ -10,7 +10,7 @@ import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "l
 import Image from "next/image"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { ShopErrorBoundary } from "@/components/shop-error-boundary"
-import { ShopPageSkeleton } from "@/components/loading-skeleton"
+import { ShopPageSkeleton, FastShopSkeleton } from "@/components/loading-skeleton"
 
 // Google Analytics tracking functions
 declare global {
@@ -118,9 +118,14 @@ export default function ShopPage() {
     // Track page view
     trackPageView('Shop Page', window.location.href)
     
-    fetchProducts()
-    fetchCategories()
-    fetchRecentNotifications()
+    // Load data in parallel for better performance
+    Promise.all([
+      fetchProducts(),
+      fetchCategories(),
+      fetchRecentNotifications()
+    ]).catch(error => {
+      console.error('Error loading shop data:', error)
+    })
 
     // Set a timeout to prevent infinite loading
     const timeout = setTimeout(() => {
@@ -128,7 +133,7 @@ export default function ShopPage() {
         setError('Request timeout - please try again')
         setLoading(false)
       }
-    }, 10000) // 10 second timeout
+    }, 8000) // 8 second timeout (reduced from 10)
 
     // Initialize chunk loader only on client side
     if (typeof window !== 'undefined') {
@@ -301,14 +306,21 @@ export default function ShopPage() {
       setLoading(true)
       setError(null)
       
+      // Use AbortController for timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
+      
       const timestamp = Date.now()
       const response = await fetch(`/api/products?t=${timestamp}`, {
         cache: 'no-store',
+        signal: controller.signal,
         headers: {
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache'
         }
       })
+      
+      clearTimeout(timeoutId)
       
       if (response.ok) {
         const data = await response.json()
@@ -328,13 +340,13 @@ export default function ShopPage() {
       const errorMessage = error instanceof Error ? error.message : 'Failed to load products'
       setError(errorMessage)
       
-      // Retry logic - up to 3 attempts
-      if (retryAttempt < 3) {
-        console.log(`Retrying fetch products (attempt ${retryAttempt + 1}/3)`)
+      // Retry logic - up to 2 attempts (reduced from 3)
+      if (retryAttempt < 2) {
+        console.log(`Retrying fetch products (attempt ${retryAttempt + 1}/2)`)
         setRetryCount(retryAttempt + 1)
         setTimeout(() => {
           fetchProducts(retryAttempt + 1)
-        }, 1000 * (retryAttempt + 1)) // Exponential backoff
+        }, 500 * (retryAttempt + 1)) // Faster retry
       } else {
         trackEvent('error', 'ecommerce', 'product_fetch_error')
       }
@@ -345,14 +357,21 @@ export default function ShopPage() {
 
   const fetchCategories = async () => {
     try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
+      
       const timestamp = Date.now()
       const response = await fetch(`/api/categories?t=${timestamp}`, {
         cache: 'no-store',
+        signal: controller.signal,
         headers: {
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache'
         }
       })
+      
+      clearTimeout(timeoutId)
+      
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.categories) {
@@ -469,9 +488,9 @@ export default function ShopPage() {
     document.addEventListener('touchmove', handleTouchMove)
   }
 
-  // Show skeleton during initial load or before hydration
+  // Show fast skeleton during initial load or before hydration
   if (!mounted || (loading && products.length === 0 && !error)) {
-    return <ShopPageSkeleton />
+    return <FastShopSkeleton />
   }
 
   // Show fallback if there's a chunk loading error
@@ -603,8 +622,13 @@ export default function ShopPage() {
             </div>
             <h3 className="heading-4 mb-2">Loading products...</h3>
             <p className="body-medium text-muted-foreground">
-              {retryCount > 0 ? `Retrying... (${retryCount}/3)` : 'Fetching the latest finds from our database'}
+              {retryCount > 0 ? `Retrying... (${retryCount}/2)` : 'Fetching the latest finds from our database'}
             </p>
+            <div className="mt-4 w-full max-w-xs mx-auto">
+              <div className="bg-gray-200 rounded-full h-2">
+                <div className="bg-primary h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+              </div>
+            </div>
           </div>
         ) : error ? (
           <div className="py-12 text-center">

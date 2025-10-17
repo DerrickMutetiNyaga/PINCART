@@ -64,3 +64,38 @@ export function ShopPageSkeleton() {
     </div>
   )
 }
+
+export function FastShopSkeleton() {
+  return (
+    <div className="min-h-screen">
+      {/* Quick loading indicator */}
+      <div className="border-b bg-gradient-to-b from-primary/5 to-transparent section-spacing">
+        <div className="container-responsive">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="flex items-center justify-center mb-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+            <h3 className="text-xl font-semibold mb-2">Loading Shop...</h3>
+            <p className="text-gray-600">Fetching the latest products</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Quick products grid */}
+      <section className="container-responsive section-spacing">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="animate-pulse">
+              <div className="bg-gray-200 aspect-square rounded-lg mb-4"></div>
+              <div className="space-y-2">
+                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  )
+}
