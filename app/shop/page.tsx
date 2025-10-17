@@ -10,7 +10,6 @@ import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "l
 import Image from "next/image"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { ShopPageSkeleton } from "@/components/loading-skeleton"
-import { chunkLoader } from "@/lib/chunk-loader"
 
 // Google Analytics tracking functions
 declare global {
@@ -121,8 +120,12 @@ export default function ShopPage() {
       }
     }, 10000) // 10 second timeout
 
-    // Initialize chunk loader
-    chunkLoader.reset()
+    // Initialize chunk loader only on client side
+    if (typeof window !== 'undefined') {
+      import('@/lib/chunk-loader').then(({ chunkLoader }) => {
+        chunkLoader.reset()
+      })
+    }
 
     return () => {
       clearTimeout(timeout)

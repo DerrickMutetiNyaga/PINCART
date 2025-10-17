@@ -15,10 +15,16 @@ class ChunkLoader {
   private retryDelay = 1000
 
   constructor() {
-    this.setupGlobalErrorHandler()
+    // Only setup error handlers in browser environment
+    if (typeof window !== 'undefined') {
+      this.setupGlobalErrorHandler()
+    }
   }
 
   private setupGlobalErrorHandler() {
+    // Only run in browser environment
+    if (typeof window === 'undefined') return
+
     // Handle chunk loading errors
     window.addEventListener('error', (event) => {
       if (this.isChunkError(event)) {
@@ -61,8 +67,11 @@ class ChunkLoader {
   }
 
   private retryChunkLoad() {
+    // Only run in browser environment
+    if (typeof window === 'undefined') return
+
     // Clear module cache and retry
-    if (typeof window !== 'undefined' && (window as any).__webpack_require__) {
+    if ((window as any).__webpack_require__) {
       try {
         // Clear the failed chunk from cache
         const webpackRequire = (window as any).__webpack_require__
@@ -81,10 +90,11 @@ class ChunkLoader {
   }
 
   private forceReload() {
+    // Only run in browser environment
+    if (typeof window === 'undefined') return
+
     // Force a hard reload to get fresh chunks
-    if (typeof window !== 'undefined') {
-      window.location.reload()
-    }
+    window.location.reload()
   }
 
   public reset() {
