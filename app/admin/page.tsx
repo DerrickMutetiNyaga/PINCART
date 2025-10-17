@@ -12,6 +12,18 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog'
 import { Upload, Save, LogOut, Package, Users, ShoppingCart, DollarSign, Plus, Tag, Edit, Trash2, RefreshCw } from 'lucide-react'
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Admin Dashboard - Pinkcart",
+  description: "Manage products, orders, and users in the Pinkcart admin dashboard.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 interface Product {
   _id?: string

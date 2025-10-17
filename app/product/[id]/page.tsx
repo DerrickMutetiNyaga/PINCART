@@ -10,6 +10,18 @@ import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Heart, Minus, Package, Plus, Share2, Sparkles, TrendingUp, Truck, Users, ZoomIn, Play, X } from "lucide-react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Product Details - Pinkcart",
+  description: "View product details and join group shipments to save on shipping costs.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 const productData: Record<string, any> = {
   "1": {

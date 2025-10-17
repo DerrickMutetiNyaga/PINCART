@@ -11,6 +11,18 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Heart, Mail, MapPin, MessageCircle, Phone, Send, Sparkles } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Contact Us - Pinkcart",
+  description: "Get in touch with Pinkcart for questions about group shipping, orders, or general inquiries.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({

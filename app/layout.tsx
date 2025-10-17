@@ -159,9 +159,11 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": "Pinkcart",
     
-    // Performance and caching
-    "cache-control": "public, max-age=31536000",
-    "expires": "Thu, 31 Dec 2025 23:59:59 GMT",
+    // Performance and caching - DISABLED FOR FRESH DATA
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
     
     // Security
     "referrer-policy": "origin-when-cross-origin",

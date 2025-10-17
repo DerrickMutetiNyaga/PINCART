@@ -4,6 +4,18 @@ import { Button } from "@/components/ui/button"
 import { Heart, Package, Sparkles, Target, Users } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "About Us - Pinkcart",
+  description: "Learn about Pinkcart's mission to make cute finds from China affordable through community group shipping.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 export default function AboutPage() {
   return (

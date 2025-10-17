@@ -4,6 +4,18 @@ import { Button } from "@/components/ui/button"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Heart, Package, ShoppingCart, Sparkles, TrendingDown, Truck, Users, MessageCircle } from "lucide-react"
 import Link from "next/link"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "How It Works - Pinkcart",
+  description: "Learn how Pinkcart's group shipping works to save you money on shipping costs from China to Kenya.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 export default function HowItWorksPage() {
   const faqs = [

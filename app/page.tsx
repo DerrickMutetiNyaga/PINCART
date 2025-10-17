@@ -6,6 +6,18 @@ import { Heart, Package, Sparkles, TrendingUp, Users, MessageCircle } from "luci
 import Link from "next/link"
 import Image from "next/image"
 import { Suspense } from "react"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Pinkcart - Let's Ship Together",
+  description: "Cute Finds, Lower Shipping, Community Vibes. Join our group shipping community and save up to 60% on shipping costs from China to Kenya.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 export default function HomePage() {
 

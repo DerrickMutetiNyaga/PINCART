@@ -8,6 +8,18 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: "Shop - Pinkcart",
+  description: "Browse our latest cute finds and join group shipments to save on shipping costs.",
+  other: {
+    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+    "pragma": "no-cache",
+    "expires": "0",
+    "surrogate-control": "no-store",
+  },
+}
 
 // Google Analytics tracking functions
 declare global {
