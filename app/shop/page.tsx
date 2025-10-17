@@ -9,6 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { Metadata } from "next"
+import { ErrorBoundary } from "@/components/error-boundary"
+import { ShopPageSkeleton } from "@/components/loading-skeleton"
 
 export const metadata: Metadata = {
   title: "Shop - Pinkcart",
@@ -91,6 +93,8 @@ export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [retryCount, setRetryCount] = useState(0)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
@@ -116,6 +120,16 @@ export default function ShopPage() {
     fetchProducts()
     fetchCategories()
     fetchRecentNotifications()
+
+    // Set a timeout to prevent infinite loading
+    const timeout = setTimeout(() => {
+      if (loading && products.length === 0) {
+        setError('Request timeout - please try again')
+        setLoading(false)
+      }
+    }, 10000) // 10 second timeout
+
+    return () => clearTimeout(timeout)
   }, [])
 
   // Show scheduled notifications at specific times with randomized names
@@ -272,9 +286,11 @@ export default function ShopPage() {
     setModalOpen(false)
   }
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (retryAttempt = 0) => {
     try {
       setLoading(true)
+      setError(null)
+      
       const timestamp = Date.now()
       const response = await fetch(`/api/products?t=${timestamp}`, {
         cache: 'no-store',
@@ -283,17 +299,35 @@ export default function ShopPage() {
           'Pragma': 'no-cache'
         }
       })
+      
       if (response.ok) {
         const data = await response.json()
-        setProducts(data.products || [])
-        // Track successful product load
-        trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
+        if (data.success && data.products) {
+          setProducts(data.products || [])
+          setRetryCount(0)
+          // Track successful product load
+          trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
+        } else {
+          throw new Error(data.error || 'Failed to load products')
+        }
       } else {
-        trackEvent('error', 'ecommerce', 'product_load_failed')
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
     } catch (error) {
       console.error('Error fetching products:', error)
-      trackEvent('error', 'ecommerce', 'product_fetch_error')
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load products'
+      setError(errorMessage)
+      
+      // Retry logic - up to 3 attempts
+      if (retryAttempt < 3) {
+        console.log(`Retrying fetch products (attempt ${retryAttempt + 1}/3)`)
+        setRetryCount(retryAttempt + 1)
+        setTimeout(() => {
+          fetchProducts(retryAttempt + 1)
+        }, 1000 * (retryAttempt + 1)) // Exponential backoff
+      } else {
+        trackEvent('error', 'ecommerce', 'product_fetch_error')
+      }
     } finally {
       setLoading(false)
     }
@@ -311,11 +345,15 @@ export default function ShopPage() {
       })
       if (response.ok) {
         const data = await response.json()
-        setCategories(data.categories || [])
-        // Track successful category load
-        trackEvent('load_categories', 'ecommerce', 'shop_page', data.categories?.length || 0)
+        if (data.success && data.categories) {
+          setCategories(data.categories || [])
+          // Track successful category load
+          trackEvent('load_categories', 'ecommerce', 'shop_page', data.categories?.length || 0)
+        } else {
+          console.error('Failed to load categories:', data.error)
+        }
       } else {
-        console.error('Failed to fetch categories')
+        console.error('Failed to fetch categories:', response.status, response.statusText)
       }
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -421,9 +459,15 @@ export default function ShopPage() {
     document.addEventListener('touchmove', handleTouchMove)
   }
 
+  // Show skeleton during initial load
+  if (loading && products.length === 0 && !error) {
+    return <ShopPageSkeleton />
+  }
+
   return (
-    <div className="min-h-screen">
-      <Header />
+    <ErrorBoundary>
+      <div className="min-h-screen">
+        <Header />
       
       {/* Notification System */}
       <div className="fixed top-20 right-4 z-50 space-y-2">
@@ -515,7 +559,33 @@ export default function ShopPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
             </div>
             <h3 className="heading-4 mb-2">Loading products...</h3>
-            <p className="body-medium text-muted-foreground">Fetching the latest finds from our database</p>
+            <p className="body-medium text-muted-foreground">
+              {retryCount > 0 ? `Retrying... (${retryCount}/3)` : 'Fetching the latest finds from our database'}
+            </p>
+          </div>
+        ) : error ? (
+          <div className="py-12 text-center">
+            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 sm:h-20 sm:w-20">
+              <Package className="h-8 w-8 text-red-500 sm:h-10 sm:w-10" />
+            </div>
+            <h3 className="heading-4 mb-2 text-red-600">Failed to Load Products</h3>
+            <p className="body-medium text-muted-foreground mb-4">{error}</p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button 
+                onClick={() => fetchProducts(0)} 
+                className="bg-primary hover:bg-primary/90"
+                disabled={loading}
+              >
+                {loading ? 'Retrying...' : 'Try Again'}
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.reload()}
+                disabled={loading}
+              >
+                Refresh Page
+              </Button>
+            </div>
           </div>
         ) : (
           <>
@@ -527,13 +597,26 @@ export default function ShopPage() {
               ))}
             </div>
 
-            {filteredProducts.length === 0 && (
+            {filteredProducts.length === 0 && !loading && !error && (
               <div className="py-12 text-center">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted sm:h-20 sm:w-20">
                   <Package className="h-8 w-8 text-muted-foreground sm:h-10 sm:w-10" />
                 </div>
                 <h3 className="heading-4 mb-2">Nothing here yet</h3>
-                <p className="body-medium text-muted-foreground">Try selecting a different category</p>
+                <p className="body-medium text-muted-foreground mb-4">
+                  {selectedCategory === "all" 
+                    ? "No products available at the moment. Check back soon!" 
+                    : "Try selecting a different category"
+                  }
+                </p>
+                {selectedCategory !== "all" && (
+                  <Button 
+                    onClick={() => setSelectedCategory("all")}
+                    variant="outline"
+                  >
+                    View All Products
+                  </Button>
+                )}
               </div>
             )}
           </>
@@ -977,6 +1060,7 @@ export default function ShopPage() {
            </div>
          </DialogContent>
        </Dialog>
-     </div>
-   )
- }
+      </div>
+    </ErrorBoundary>
+  )
+}
