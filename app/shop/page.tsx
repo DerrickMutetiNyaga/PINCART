@@ -139,7 +139,14 @@ export default function ShopPage() {
 
   const fetchRecentNotifications = async () => {
     try {
-      const response = await fetch('/api/notifications')
+      const timestamp = Date.now()
+      const response = await fetch(`/api/notifications?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      })
       if (response.ok) {
         const data = await response.json()
         const newNotifications = data.notifications || []
@@ -256,7 +263,14 @@ export default function ShopPage() {
   const fetchProducts = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/products')
+      const timestamp = Date.now()
+      const response = await fetch(`/api/products?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      })
       if (response.ok) {
         const data = await response.json()
         setProducts(data.products || [])
@@ -275,7 +289,14 @@ export default function ShopPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/api/categories')
+      const timestamp = Date.now()
+      const response = await fetch(`/api/categories?t=${timestamp}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
+        }
+      })
       if (response.ok) {
         const data = await response.json()
         setCategories(data.categories || [])

@@ -10,7 +10,7 @@ export async function GET() {
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean()
     
-    return NextResponse.json({
+    const response = NextResponse.json({
       success: true,
       categories: categories.map(category => ({
         id: category._id.toString(),
@@ -21,6 +21,14 @@ export async function GET() {
         sortOrder: category.sortOrder
       }))
     })
+    
+    // Disable caching to ensure fresh data on Vercel
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+    response.headers.set('Pragma', 'no-cache')
+    response.headers.set('Expires', '0')
+    response.headers.set('Surrogate-Control', 'no-store')
+    
+    return response
   } catch (error) {
     console.error('Error fetching categories:', error)
     return NextResponse.json(
