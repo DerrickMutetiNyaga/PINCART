@@ -35,12 +35,20 @@ const trackPageView = (page_title: string, page_location: string) => {
   }
 }
 
-const categories = [
-  { id: "all", name: "All Finds", icon: Sparkles },
-  { id: "girly", name: "Girly Finds", icon: Heart },
-  { id: "dorm", name: "Dorm/Kitchen Essentials", icon: Package },
-  { id: "tech", name: "Tech & Accessories", icon: Sparkles },
-]
+// Icon mapping for categories
+const getCategoryIcon = (categoryName: string) => {
+  const name = categoryName.toLowerCase()
+  if (name.includes('girly') || name.includes('girl') || name.includes('pink') || name.includes('cute')) {
+    return Heart
+  }
+  if (name.includes('dorm') || name.includes('kitchen') || name.includes('home') || name.includes('essential')) {
+    return Package
+  }
+  if (name.includes('tech') || name.includes('accessory') || name.includes('phone') || name.includes('electronic')) {
+    return Sparkles
+  }
+  return Sparkles // Default icon
+}
 
 interface Product {
   id: string
@@ -57,9 +65,19 @@ interface Product {
   shippingEstimate?: string
 }
 
+interface Category {
+  id: string
+  name: string
+  description?: string
+  image?: string
+  isActive: boolean
+  sortOrder: number
+}
+
 export default function ShopPage() {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [products, setProducts] = useState<Product[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -84,6 +102,7 @@ export default function ShopPage() {
     trackPageView('Shop Page', window.location.href)
     
     fetchProducts()
+    fetchCategories()
     fetchRecentNotifications()
   }, [])
 
@@ -254,6 +273,22 @@ export default function ShopPage() {
     }
   }
 
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories')
+      if (response.ok) {
+        const data = await response.json()
+        setCategories(data.categories || [])
+        // Track successful category load
+        trackEvent('load_categories', 'ecommerce', 'shop_page', data.categories?.length || 0)
+      } else {
+        console.error('Failed to fetch categories')
+      }
+    } catch (error) {
+      console.error('Error fetching categories:', error)
+    }
+  }
+
   const filteredProducts =
     selectedCategory === "all" ? products : products.filter((p) => p.category === selectedCategory)
 
@@ -398,18 +433,34 @@ export default function ShopPage() {
       <section className="border-b py-6 sm:py-8">
         <div className="container-responsive">
           <div className="flex flex-wrap gap-2 sm:gap-3">
-            {categories.map((category) => (
-              <Button
-                key={category.id}
-                variant={selectedCategory === category.id ? "default" : "outline"}
-                className="button-responsive rounded-full"
-                onClick={() => handleCategoryChange(category.id)}
-              >
-                <category.icon className="mr-2 h-4 w-4" />
-                <span className="hidden sm:inline">{category.name}</span>
-                <span className="sm:hidden">{category.name.split(' ')[0]}</span>
-              </Button>
-            ))}
+            {/* All Finds Button */}
+            <Button
+              key="all"
+              variant={selectedCategory === "all" ? "default" : "outline"}
+              className="button-responsive rounded-full"
+              onClick={() => handleCategoryChange("all")}
+            >
+              <Sparkles className="mr-2 h-4 w-4" />
+              <span className="hidden sm:inline">All Finds</span>
+              <span className="sm:hidden">All</span>
+            </Button>
+            
+            {/* Dynamic Categories from Database */}
+            {categories.map((category) => {
+              const IconComponent = getCategoryIcon(category.name)
+              return (
+                <Button
+                  key={category.id}
+                  variant={selectedCategory === category.name ? "default" : "outline"}
+                  className="button-responsive rounded-full"
+                  onClick={() => handleCategoryChange(category.name)}
+                >
+                  <IconComponent className="mr-2 h-4 w-4" />
+                  <span className="hidden sm:inline">{category.name}</span>
+                  <span className="sm:hidden">{category.name.split(' ')[0]}</span>
+                </Button>
+              )
+            })}
           </div>
         </div>
       </section>
