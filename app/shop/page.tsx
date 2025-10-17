@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { ErrorBoundary } from "@/components/error-boundary"
+import { ShopErrorBoundary } from "@/components/shop-error-boundary"
 import { ShopPageSkeleton } from "@/components/loading-skeleton"
 
 // Google Analytics tracking functions
@@ -83,6 +84,7 @@ export default function ShopPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [retryCount, setRetryCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [modalOpen, setModalOpen] = useState(false)
@@ -101,7 +103,15 @@ export default function ShopPage() {
   ]
 
 
+  // Hydration check
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    // Only run on client side after hydration
+    if (!mounted) return
+
     // Set cache-busting headers for client-side
     document.title = "Shop - Pinkcart"
     
@@ -130,7 +140,7 @@ export default function ShopPage() {
     return () => {
       clearTimeout(timeout)
     }
-  }, [])
+  }, [mounted])
 
   // Show scheduled notifications at specific times with randomized names
   useEffect(() => {
@@ -459,8 +469,8 @@ export default function ShopPage() {
     document.addEventListener('touchmove', handleTouchMove)
   }
 
-  // Show skeleton during initial load
-  if (loading && products.length === 0 && !error) {
+  // Show skeleton during initial load or before hydration
+  if (!mounted || (loading && products.length === 0 && !error)) {
     return <ShopPageSkeleton />
   }
 
@@ -497,9 +507,10 @@ export default function ShopPage() {
   }
 
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen">
-        <Header />
+    <ShopErrorBoundary>
+      <ErrorBoundary>
+        <div className="min-h-screen">
+          <Header />
       
       {/* Notification System */}
       <div className="fixed top-20 right-4 z-50 space-y-2">
@@ -1092,7 +1103,8 @@ export default function ShopPage() {
            </div>
          </DialogContent>
        </Dialog>
-      </div>
-    </ErrorBoundary>
+        </div>
+      </ErrorBoundary>
+    </ShopErrorBoundary>
   )
 }

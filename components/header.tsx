@@ -13,11 +13,42 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export function Header() {
   const { user, signOut } = useAuth()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Show loading state during hydration
+  if (!mounted) {
+    return (
+      <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="container-responsive">
+          <div className="hidden md:flex h-16 items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-primary to-secondary">
+                <Heart className="h-5 w-5 fill-white text-white" />
+              </div>
+              <span className="text-2xl font-bold tracking-tight" style={{ fontFamily: "var(--font-fredoka)" }}>
+                Pinkcart
+              </span>
+            </div>
+            <div className="flex items-center gap-6">
+              <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+              <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </header>
+    )
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
