@@ -12,7 +12,8 @@ export async function GET(request: NextRequest) {
     // Transform _id to id for frontend compatibility
     const transformedProducts = products.map(product => ({
       ...product.toObject(),
-      id: product._id.toString()
+      id: product._id.toString(),
+      image: product.images && product.images.length > 0 ? product.images[0] : product.image
     }))
     
     const response = NextResponse.json({ products: transformedProducts })

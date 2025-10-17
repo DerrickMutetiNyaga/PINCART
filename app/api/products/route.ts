@@ -17,7 +17,7 @@ export async function GET() {
         name: product.name,
         price: product.price,
         originalPrice: product.originalPrice,
-        image: product.image,
+        image: product.images && product.images.length > 0 ? product.images[0] : product.image,
         images: product.images || [],
         joinedCount: product.joinedCount || 0,
         category: product.category,
