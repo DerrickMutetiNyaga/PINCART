@@ -61,6 +61,10 @@ const nextConfig = {
             key: 'Surrogate-Control',
             value: 'no-store'
           },
+          {
+            key: 'X-Cache-Version',
+            value: '2.0.0'
+          },
         ],
       },
       {

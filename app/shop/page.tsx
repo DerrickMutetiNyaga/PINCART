@@ -11,6 +11,7 @@ import Image from "next/image"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { ShopErrorBoundary } from "@/components/shop-error-boundary"
 import { ShopPageSkeleton, FastShopSkeleton } from "@/components/loading-skeleton"
+import { addCacheBustingToUrl } from "@/lib/force-cache-clear"
 
 // Google Analytics tracking functions
 declare global {
@@ -180,8 +181,7 @@ export default function ShopPage() {
 
   const fetchRecentNotifications = async () => {
     try {
-      const timestamp = Date.now()
-      const response = await fetch(`/api/notifications?t=${timestamp}`, {
+      const response = await fetch(addCacheBustingToUrl('/api/notifications'), {
         cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache',
@@ -310,8 +310,7 @@ export default function ShopPage() {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
       
-      const timestamp = Date.now()
-      const response = await fetch(`/api/products?t=${timestamp}`, {
+      const response = await fetch(addCacheBustingToUrl('/api/products'), {
         cache: 'no-store',
         signal: controller.signal,
         headers: {
@@ -360,8 +359,7 @@ export default function ShopPage() {
       const controller = new AbortController()
       const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
       
-      const timestamp = Date.now()
-      const response = await fetch(`/api/categories?t=${timestamp}`, {
+      const response = await fetch(addCacheBustingToUrl('/api/categories'), {
         cache: 'no-store',
         signal: controller.signal,
         headers: {
