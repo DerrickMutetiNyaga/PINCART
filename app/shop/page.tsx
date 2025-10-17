@@ -83,8 +83,6 @@ export default function ShopPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [retryCount, setRetryCount] = useState(0)
   const [mounted, setMounted] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -128,25 +126,20 @@ export default function ShopPage() {
       console.error('Error loading shop data:', error)
     })
 
-    // Set a timeout to prevent infinite loading
-    const timeout = setTimeout(() => {
-      if (loading && products.length === 0) {
-        setError('Request timeout - please try again')
-        setLoading(false)
-      }
-    }, 8000) // 8 second timeout (reduced from 10)
-
     // Initialize chunk loader only on client side
     if (typeof window !== 'undefined') {
       import('@/lib/chunk-loader').then(({ chunkLoader }) => {
         chunkLoader.reset()
       })
     }
-
-    return () => {
-      clearTimeout(timeout)
-    }
   }, [mounted])
+
+  // Clear loading when products load successfully
+  useEffect(() => {
+    if (products.length > 0 && loading) {
+      setLoading(false)
+    }
+  }, [products.length, loading])
 
   // Show scheduled notifications at specific times with randomized names
   useEffect(() => {
@@ -301,54 +294,28 @@ export default function ShopPage() {
     setModalOpen(false)
   }
 
-  const fetchProducts = async (retryAttempt = 0) => {
+  const fetchProducts = async () => {
     try {
       setLoading(true)
-      setError(null)
-      
-      // Use AbortController for timeout
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 5000) // 5 second timeout
       
       const response = await fetch(addCacheBustingToUrl('/api/products'), {
         cache: 'no-store',
-        signal: controller.signal,
         headers: {
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache'
         }
       })
       
-      clearTimeout(timeoutId)
-      
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
           setProducts(data.products || [])
-          setRetryCount(0)
           // Track successful product load
           trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
-        } else {
-          throw new Error(data.error || 'Failed to load products')
         }
-      } else {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
       }
     } catch (error) {
       console.error('Error fetching products:', error)
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load products'
-      setError(errorMessage)
-      
-      // Retry logic - up to 2 attempts (reduced from 3)
-      if (retryAttempt < 2) {
-        console.log(`Retrying fetch products (attempt ${retryAttempt + 1}/2)`)
-        setRetryCount(retryAttempt + 1)
-        setTimeout(() => {
-          fetchProducts(retryAttempt + 1)
-        }, 500 * (retryAttempt + 1)) // Faster retry
-      } else {
-        trackEvent('error', 'ecommerce', 'product_fetch_error')
-      }
     } finally {
       setLoading(false)
     }
@@ -356,19 +323,13 @@ export default function ShopPage() {
 
   const fetchCategories = async () => {
     try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 3000) // 3 second timeout
-      
       const response = await fetch(addCacheBustingToUrl('/api/categories'), {
         cache: 'no-store',
-        signal: controller.signal,
         headers: {
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache'
         }
       })
-      
-      clearTimeout(timeoutId)
       
       if (response.ok) {
         const data = await response.json()
@@ -376,11 +337,7 @@ export default function ShopPage() {
           setCategories(data.categories || [])
           // Track successful category load
           trackEvent('load_categories', 'ecommerce', 'shop_page', data.categories?.length || 0)
-        } else {
-          console.error('Failed to load categories:', data.error)
         }
-      } else {
-        console.error('Failed to fetch categories:', response.status, response.statusText)
       }
     } catch (error) {
       console.error('Error fetching categories:', error)
@@ -487,40 +444,8 @@ export default function ShopPage() {
   }
 
   // Show fast skeleton during initial load or before hydration
-  if (!mounted || (loading && products.length === 0 && !error)) {
+  if (!mounted || (loading && products.length === 0)) {
     return <FastShopSkeleton />
-  }
-
-  // Show fallback if there's a chunk loading error
-  if (error && error.includes('ChunkLoadError')) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="max-w-md w-full text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
-            <Package className="h-8 w-8 text-red-500" />
-          </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Loading Error</h2>
-          <p className="text-gray-600 mb-4">
-            There was an issue loading the page. This usually resolves automatically.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button 
-              onClick={() => window.location.reload()}
-              className="flex-1"
-            >
-              Reload Page
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => window.location.href = '/'}
-              className="flex-1"
-            >
-              Go Home
-            </Button>
-          </div>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -620,37 +545,8 @@ export default function ShopPage() {
             </div>
             <h3 className="heading-4 mb-2">Loading products...</h3>
             <p className="body-medium text-muted-foreground">
-              {retryCount > 0 ? `Retrying... (${retryCount}/2)` : 'Fetching the latest finds from our database'}
+              Fetching the latest finds from our database
             </p>
-            <div className="mt-4 w-full max-w-xs mx-auto">
-              <div className="bg-gray-200 rounded-full h-2">
-                <div className="bg-primary h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
-              </div>
-            </div>
-          </div>
-        ) : error ? (
-          <div className="py-12 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100 sm:h-20 sm:w-20">
-              <Package className="h-8 w-8 text-red-500 sm:h-10 sm:w-10" />
-            </div>
-            <h3 className="heading-4 mb-2 text-red-600">Failed to Load Products</h3>
-            <p className="body-medium text-muted-foreground mb-4">{error}</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button 
-                onClick={() => fetchProducts(0)} 
-                className="bg-primary hover:bg-primary/90"
-                disabled={loading}
-              >
-                {loading ? 'Retrying...' : 'Try Again'}
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => window.location.reload()}
-                disabled={loading}
-              >
-                Refresh Page
-              </Button>
-            </div>
           </div>
         ) : (
           <>
@@ -662,7 +558,7 @@ export default function ShopPage() {
               ))}
             </div>
 
-            {filteredProducts.length === 0 && !loading && !error && (
+            {filteredProducts.length === 0 && !loading && (
               <div className="py-12 text-center">
                 <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted sm:h-20 sm:w-20">
                   <Package className="h-8 w-8 text-muted-foreground sm:h-10 sm:w-10" />
