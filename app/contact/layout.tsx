@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard - Pinkcart",
-  description: "Manage products, orders, and users in the Pinkcart admin dashboard.",
+  title: "Contact Us - Pinkcart",
+  description: "Get in touch with Pinkcart for questions about group shipping, orders, or general inquiries.",
   other: {
     "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
     "pragma": "no-cache",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function AdminLayout({
+export default function ContactLayout({
   children,
 }: {
   children: React.ReactNode
