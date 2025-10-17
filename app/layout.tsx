@@ -198,6 +198,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="Pinkcart" />
         <link rel="apple-touch-icon" href="/placeholder-logo.png" />
         <link rel="icon" href="/placeholder-logo.svg" type="image/svg+xml" />
+        <link rel="shortcut icon" href="/placeholder-logo.svg" type="image/svg+xml" />
         <link rel="manifest" href="/manifest.json" />
         {/* Google Analytics */}
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-BWM0F2S60Y"></script>

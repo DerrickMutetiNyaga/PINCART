@@ -10,6 +10,7 @@ import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "l
 import Image from "next/image"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { ShopPageSkeleton } from "@/components/loading-skeleton"
+import { chunkLoader } from "@/lib/chunk-loader"
 
 // Google Analytics tracking functions
 declare global {
@@ -120,19 +121,11 @@ export default function ShopPage() {
       }
     }, 10000) // 10 second timeout
 
-    // Handle chunk loading errors
-    const handleChunkError = (event: ErrorEvent) => {
-      if (event.message.includes('ChunkLoadError') || event.message.includes('Loading chunk')) {
-        console.log('Chunk loading error detected, reloading page...')
-        window.location.reload()
-      }
-    }
-
-    window.addEventListener('error', handleChunkError)
+    // Initialize chunk loader
+    chunkLoader.reset()
 
     return () => {
       clearTimeout(timeout)
-      window.removeEventListener('error', handleChunkError)
     }
   }, [])
 
@@ -466,6 +459,38 @@ export default function ShopPage() {
   // Show skeleton during initial load
   if (loading && products.length === 0 && !error) {
     return <ShopPageSkeleton />
+  }
+
+  // Show fallback if there's a chunk loading error
+  if (error && error.includes('ChunkLoadError')) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="max-w-md w-full text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-red-100">
+            <Package className="h-8 w-8 text-red-500" />
+          </div>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">Loading Error</h2>
+          <p className="text-gray-600 mb-4">
+            There was an issue loading the page. This usually resolves automatically.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button 
+              onClick={() => window.location.reload()}
+              className="flex-1"
+            >
+              Reload Page
+            </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => window.location.href = '/'}
+              className="flex-1"
+            >
+              Go Home
+            </Button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
