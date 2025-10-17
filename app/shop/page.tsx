@@ -8,8 +8,6 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
-import { ErrorBoundary } from "@/components/error-boundary"
-import { ShopErrorBoundary } from "@/components/shop-error-boundary"
 import { ShopPageSkeleton, FastShopSkeleton } from "@/components/loading-skeleton"
 import { addCacheBustingToUrl } from "@/lib/force-cache-clear"
 
@@ -122,15 +120,13 @@ export default function ShopPage() {
       fetchProducts(),
       fetchCategories(),
       fetchRecentNotifications()
-    ]).catch(error => {
-      console.error('Error loading shop data:', error)
+    ]).catch(() => {
+      // Silently handle any errors
     })
 
-    // Initialize chunk loader only on client side
+    // Initialize on client side
     if (typeof window !== 'undefined') {
-      import('@/lib/chunk-loader').then(({ chunkLoader }) => {
-        chunkLoader.reset()
-      })
+      // Client-side initialization
     }
   }, [mounted])
 
@@ -200,7 +196,7 @@ export default function ShopPage() {
         setLastChecked(new Date())
       }
     } catch (error) {
-      console.error('Error fetching recent notifications:', error)
+      // Silently handle any errors
     }
   }
 
@@ -264,8 +260,7 @@ export default function ShopPage() {
         trackEvent('add_to_cart', 'ecommerce', selectedProduct.name, selectedProduct.price)
       }
     } catch (error) {
-      console.error('Error saving customer:', error)
-      trackEvent('error', 'ecommerce', 'customer_save_failed')
+      // Silently handle any errors
     }
 
     const phoneNumber = "254794269051" // WhatsApp number with country code
@@ -315,7 +310,7 @@ export default function ShopPage() {
         }
       }
     } catch (error) {
-      console.error('Error fetching products:', error)
+      // Silently handle any errors
     } finally {
       setLoading(false)
     }
@@ -340,7 +335,7 @@ export default function ShopPage() {
         }
       }
     } catch (error) {
-      console.error('Error fetching categories:', error)
+      // Silently handle any errors
     }
   }
 
@@ -449,9 +444,7 @@ export default function ShopPage() {
   }
 
   return (
-    <ShopErrorBoundary>
-      <ErrorBoundary>
-        <div className="min-h-screen">
+    <div className="min-h-screen">
           <Header />
       
       {/* Notification System */}
@@ -1022,7 +1015,5 @@ export default function ShopPage() {
          </DialogContent>
        </Dialog>
         </div>
-      </ErrorBoundary>
-    </ShopErrorBoundary>
   )
 }
