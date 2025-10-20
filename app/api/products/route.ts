@@ -6,9 +6,11 @@ export async function GET() {
   try {
     await connectDB()
     
-    const products = await Product.find({ inStock: true })
+    const products = await Product.find()
       .sort({ createdAt: -1 })
       .lean()
+    
+    console.log(`API: Found ${products.length} products in database`)
     
     const response = NextResponse.json({
       success: true,

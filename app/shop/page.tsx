@@ -304,6 +304,7 @@ export default function ShopPage() {
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
+          console.log(`Client: Received ${data.products.length} products from API`)
           setProducts(data.products || [])
           // Track successful product load
           trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
