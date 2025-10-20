@@ -10,6 +10,11 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .lean()
     
+    console.log(`API: Found ${products.length} products in database`)
+    console.log(`API: Products with inStock true: ${products.filter(p => p.inStock === true).length}`)
+    console.log(`API: Products with inStock false: ${products.filter(p => p.inStock === false).length}`)
+    console.log(`API: Products with inStock undefined: ${products.filter(p => p.inStock === undefined).length}`)
+    
     const response = NextResponse.json({
       success: true,
       products: products.map(product => ({

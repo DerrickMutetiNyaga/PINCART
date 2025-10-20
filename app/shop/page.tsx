@@ -295,14 +295,17 @@ export default function ShopPage() {
       const response = await fetch(addCacheBustingToUrl('/api/products'), {
         cache: 'no-store',
         headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
         }
       })
       
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
+          console.log(`Client: Received ${data.products.length} products from API`)
+          console.log(`Client: First few products:`, data.products.slice(0, 3).map(p => ({ name: p.name, inStock: p.inStock })))
           setProducts(data.products || [])
           // Track successful product load
           trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
@@ -340,6 +343,14 @@ export default function ShopPage() {
 
   const filteredProducts =
     selectedCategory === "all" ? products : products.filter((p) => p.category === selectedCategory)
+
+  // Debug logging
+  console.log(`Shop: Total products: ${products.length}`)
+  console.log(`Shop: Filtered products: ${filteredProducts.length}`)
+  console.log(`Shop: Selected category: ${selectedCategory}`)
+  if (products.length > 0) {
+    console.log(`Shop: First product:`, { name: products[0].name, inStock: products[0].inStock, category: products[0].category })
+  }
 
   const handleProductClick = (product: Product) => {
     // Track product view
