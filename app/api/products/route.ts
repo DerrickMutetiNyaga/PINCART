@@ -10,8 +10,6 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .lean()
     
-    console.log(`API: Found ${products.length} products in database`)
-    
     const response = NextResponse.json({
       success: true,
       products: products.map(product => ({

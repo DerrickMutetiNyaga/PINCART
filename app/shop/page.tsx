@@ -255,7 +255,6 @@ export default function ShopPage() {
 
       if (response.ok) {
         // The real-time notification system will automatically show this to all users
-        console.log('Customer saved successfully')
         // Track successful data save
         trackEvent('add_to_cart', 'ecommerce', selectedProduct.name, selectedProduct.price)
       }
@@ -304,7 +303,6 @@ export default function ShopPage() {
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
-          console.log(`Client: Received ${data.products.length} products from API`)
           setProducts(data.products || [])
           // Track successful product load
           trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
