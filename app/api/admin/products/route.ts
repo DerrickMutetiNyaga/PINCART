@@ -16,15 +16,7 @@ export async function GET(request: NextRequest) {
       image: product.images && product.images.length > 0 ? product.images[0] : product.image
     }))
     
-    const response = NextResponse.json({ products: transformedProducts })
-    
-    // Disable caching
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-    response.headers.set('Pragma', 'no-cache')
-    response.headers.set('Expires', '0')
-    response.headers.set('Surrogate-Control', 'no-store')
-    
-    return response
+    return NextResponse.json({ products: transformedProducts })
   } catch (error) {
     console.error('Error fetching products:', error)
     return NextResponse.json(
@@ -51,19 +43,11 @@ export async function POST(request: NextRequest) {
     
     const product = await Product.create(productData)
     
-    const response = NextResponse.json({ 
+    return NextResponse.json({ 
       success: true, 
       product,
       message: 'Product created successfully' 
     })
-    
-    // Disable caching
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-    response.headers.set('Pragma', 'no-cache')
-    response.headers.set('Expires', '0')
-    response.headers.set('Surrogate-Control', 'no-store')
-    
-    return response
   } catch (error) {
     console.error('Error creating product:', error)
     return NextResponse.json(

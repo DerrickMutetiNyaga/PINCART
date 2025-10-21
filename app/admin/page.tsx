@@ -118,13 +118,7 @@ export default function AdminDashboard() {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/api/admin/me', {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/admin/me')
       if (response.ok) {
         setIsAuthenticated(true)
       } else {
@@ -139,14 +133,7 @@ export default function AdminDashboard() {
 
   const loadProducts = async () => {
     try {
-      const timestamp = Date.now()
-      const response = await fetch(`/api/admin/products?t=${timestamp}`, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/admin/products')
       if (response.ok) {
         const data = await response.json()
         setProducts(data.products)
@@ -158,14 +145,7 @@ export default function AdminDashboard() {
 
   const loadCategories = async () => {
     try {
-      const timestamp = Date.now()
-      const response = await fetch(`/api/admin/categories?t=${timestamp}`, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/admin/categories')
       if (response.ok) {
         const data = await response.json()
         setCategories(data.categories)
@@ -177,14 +157,7 @@ export default function AdminDashboard() {
 
   const loadOrders = async () => {
     try {
-      const timestamp = Date.now()
-      const response = await fetch(`/api/admin/orders?t=${timestamp}`, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/admin/orders')
       if (response.ok) {
         const data = await response.json()
         setOrders(data.orders)
@@ -196,14 +169,7 @@ export default function AdminDashboard() {
 
   const loadUsers = async () => {
     try {
-      const timestamp = Date.now()
-      const response = await fetch(`/api/admin/users?t=${timestamp}`, {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/admin/users')
       if (response.ok) {
         const data = await response.json()
         setUsers(data.users)

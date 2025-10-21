@@ -7,7 +7,6 @@ import { Suspense } from "react"
 import { AuthProvider } from "@/lib/auth-context"
 import { BottomNavigation } from "@/components/bottom-navigation"
 import { PerformanceMonitor } from "@/components/performance-monitor"
-import { ForceCacheClear } from "@/components/force-cache-clear"
 import "./globals.css"
 
 const fredoka = Fredoka({
@@ -160,11 +159,6 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": "Pinkcart",
     
-    // Performance and caching - DISABLED FOR FRESH DATA
-    "cache-control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
-    "pragma": "no-cache",
-    "expires": "0",
-    "surrogate-control": "no-store",
     
     // Security
     "referrer-policy": "origin-when-cross-origin",
@@ -197,10 +191,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Pinkcart" />
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" />
-        <meta name="cache-version" content="2.0.0" />
         <link rel="apple-touch-icon" href="/placeholder-logo.png" />
         <link rel="icon" href="/placeholder-logo.svg" type="image/svg+xml" />
         <link rel="shortcut icon" href="/placeholder-logo.svg" type="image/svg+xml" />
@@ -228,7 +218,6 @@ export default function RootLayout({
         }} />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${fredoka.variable} pb-20 md:pb-0`}>
-        <ForceCacheClear />
         <AuthProvider>
           <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>}>{children}</Suspense>
         </AuthProvider>

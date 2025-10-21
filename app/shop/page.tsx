@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 import { ShopPageSkeleton, FastShopSkeleton } from "@/components/loading-skeleton"
-import { addCacheBustingToUrl } from "@/lib/force-cache-clear"
 
 // Google Analytics tracking functions
 declare global {
@@ -170,13 +169,7 @@ export default function ShopPage() {
 
   const fetchRecentNotifications = async () => {
     try {
-      const response = await fetch(addCacheBustingToUrl('/api/notifications'), {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/notifications')
       if (response.ok) {
         const data = await response.json()
         const newNotifications = data.notifications || []
@@ -196,7 +189,7 @@ export default function ShopPage() {
         setLastChecked(new Date())
       }
     } catch (error) {
-      // Silently handle any errors
+      console.error('Error fetching notifications:', error)
     }
   }
 
@@ -208,6 +201,17 @@ export default function ShopPage() {
 
     return () => clearInterval(interval)
   }, [lastChecked])
+
+  // Auto-refresh products every 5 seconds for real-time updates
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!loading) {
+        fetchProducts()
+      }
+    }, 5000) // Refresh every 5 seconds for real-time updates
+
+    return () => clearInterval(interval)
+  }, [loading])
 
   const showRealTimeNotification = (name: string, productName: string) => {
     const id = Date.now().toString()
@@ -292,27 +296,16 @@ export default function ShopPage() {
     try {
       setLoading(true)
       
-      const response = await fetch(addCacheBustingToUrl('/api/products'), {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0'
-        }
-      })
+      const response = await fetch('/api/products')
       
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
-          console.log(`Client: Received ${data.products.length} products from API`)
-          console.log(`Client: First few products:`, data.products.slice(0, 3).map(p => ({ name: p.name, inStock: p.inStock })))
           setProducts(data.products || [])
-          // Track successful product load
-          trackEvent('load_products', 'ecommerce', 'shop_page', data.products?.length || 0)
         }
       }
     } catch (error) {
-      // Silently handle any errors
+      console.error('Error fetching products:', error)
     } finally {
       setLoading(false)
     }
@@ -320,24 +313,16 @@ export default function ShopPage() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(addCacheBustingToUrl('/api/categories'), {
-        cache: 'no-store',
-        headers: {
-          'Cache-Control': 'no-cache',
-          'Pragma': 'no-cache'
-        }
-      })
+      const response = await fetch('/api/categories')
       
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.categories) {
           setCategories(data.categories || [])
-          // Track successful category load
-          trackEvent('load_categories', 'ecommerce', 'shop_page', data.categories?.length || 0)
         }
       }
     } catch (error) {
-      // Silently handle any errors
+      console.error('Error fetching categories:', error)
     }
   }
 
@@ -366,6 +351,7 @@ export default function ShopPage() {
     trackEvent('filter_products', 'ecommerce', categoryId)
     setSelectedCategory(categoryId)
   }
+
 
   const nextImage = () => {
     if (selectedProduct?.images && selectedProduct.images.length > 0) {
@@ -532,13 +518,11 @@ export default function ShopPage() {
 
       {/* Products Grid */}
       <section className="container-responsive section-spacing">
-        <div className="mb-6 flex-responsive-between">
-          <div>
-            <h2 className="heading-3" style={{ fontFamily: "var(--font-fredoka)" }}>
-              {categories.find((c) => c.id === selectedCategory)?.name}
-            </h2>
-            <p className="body-small text-muted-foreground">{filteredProducts.length} finds available</p>
-          </div>
+        <div className="mb-6">
+          <h2 className="heading-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+            {categories.find((c) => c.id === selectedCategory)?.name}
+          </h2>
+          <p className="body-small text-muted-foreground">{filteredProducts.length} finds available</p>
         </div>
 
         {loading ? (

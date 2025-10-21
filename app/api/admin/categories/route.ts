@@ -15,15 +15,7 @@ export async function GET(request: NextRequest) {
       id: category._id.toString()
     }))
     
-    const response = NextResponse.json({ categories: transformedCategories })
-    
-    // Disable caching
-    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-    response.headers.set('Pragma', 'no-cache')
-    response.headers.set('Expires', '0')
-    response.headers.set('Surrogate-Control', 'no-store')
-    
-    return response
+    return NextResponse.json({ categories: transformedCategories })
   } catch (error) {
     console.error('Error fetching categories:', error)
     return NextResponse.json(
