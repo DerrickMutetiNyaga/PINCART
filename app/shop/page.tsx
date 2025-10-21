@@ -202,16 +202,28 @@ export default function ShopPage() {
     return () => clearInterval(interval)
   }, [lastChecked])
 
-  // Auto-refresh products every 5 seconds for real-time updates
+  // Auto-refresh products every 3 seconds for real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!loading) {
-        fetchProducts()
-      }
-    }, 5000) // Refresh every 5 seconds for real-time updates
+      console.log('🔄 Auto-refreshing products...')
+      fetchProducts(true) // Pass true to indicate this is an auto-refresh
+    }, 3000) // Refresh every 3 seconds for real-time updates
 
     return () => clearInterval(interval)
-  }, [loading])
+  }, [])
+
+  // Force refresh when page becomes visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        console.log('👁️ Page became visible, refreshing products...')
+        fetchProducts(true)
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange)
+  }, [])
 
   const showRealTimeNotification = (name: string, productName: string) => {
     const id = Date.now().toString()
@@ -292,22 +304,27 @@ export default function ShopPage() {
     setModalOpen(false)
   }
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (isAutoRefresh = false) => {
     try {
-      setLoading(true)
+      if (!isAutoRefresh) {
+        setLoading(true)
+      }
       
       const response = await fetch('/api/products')
       
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
+          console.log(`Auto-refresh: Received ${data.products.length} products`)
           setProducts(data.products || [])
         }
       }
     } catch (error) {
       console.error('Error fetching products:', error)
     } finally {
-      setLoading(false)
+      if (!isAutoRefresh) {
+        setLoading(false)
+      }
     }
   }
 
