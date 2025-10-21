@@ -6,27 +6,30 @@ export async function GET() {
   try {
     await connectDB()
     
-    const products = await Product.find().sort({ createdAt: -1 }).lean()
+    const totalProducts = await Product.countDocuments()
+    const products = await Product.find()
+      .sort({ createdAt: -1 })
+      .select('name category inStock createdAt')
+      .lean()
+    
+    console.log(`🔍 DEBUG: Total products in database: ${totalProducts}`)
+    console.log(`🔍 DEBUG: Products:`, products.map(p => ({ name: p.name, category: p.category, inStock: p.inStock })))
     
     return NextResponse.json({
       success: true,
-      totalProducts: products.length,
-      inStockTrue: products.filter(p => p.inStock === true).length,
-      inStockFalse: products.filter(p => p.inStock === false).length,
-      inStockUndefined: products.filter(p => p.inStock === undefined).length,
+      totalProducts,
       products: products.map(product => ({
         id: product._id.toString(),
         name: product.name,
-        inStock: product.inStock,
         category: product.category,
-        price: product.price
+        inStock: product.inStock,
+        createdAt: product.createdAt
       }))
     })
-    
   } catch (error) {
-    console.error('Debug API error:', error)
+    console.error('❌ Debug API error:', error)
     return NextResponse.json(
-      { success: false, error: error.message },
+      { success: false, error: 'Failed to debug products' },
       { status: 500 }
     )
   }
