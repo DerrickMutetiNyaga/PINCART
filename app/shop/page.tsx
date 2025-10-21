@@ -6,7 +6,7 @@ import { ProductCard } from "@/components/product-card"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight } from "lucide-react"
+import { Heart, Package, Sparkles, Users, X, ChevronLeft, ChevronRight, RefreshCw } from "lucide-react"
 import Image from "next/image"
 import { ShopPageSkeleton, FastShopSkeleton } from "@/components/loading-skeleton"
 
@@ -89,6 +89,7 @@ export default function ShopPage() {
   const [customerName, setCustomerName] = useState("")
   const [recentNotifications, setRecentNotifications] = useState<Array<{id: string, name: string, productName: string, joinedAt: string}>>([])
   const [lastChecked, setLastChecked] = useState<Date>(new Date())
+  const [refreshing, setRefreshing] = useState(false)
 
   // Famous Kenyan names
   const kenyanNames = [
@@ -202,12 +203,12 @@ export default function ShopPage() {
     return () => clearInterval(interval)
   }, [lastChecked])
 
-  // Auto-refresh products every 3 seconds for real-time updates
+  // Auto-refresh products every 2 seconds for real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
       console.log('🔄 Auto-refreshing products...')
       fetchProducts(true) // Pass true to indicate this is an auto-refresh
-    }, 3000) // Refresh every 3 seconds for real-time updates
+    }, 2000) // Refresh every 2 seconds for real-time updates
 
     return () => clearInterval(interval)
   }, [])
@@ -310,17 +311,33 @@ export default function ShopPage() {
         setLoading(true)
       }
       
+      console.log(`🔄 Fetching products... (auto-refresh: ${isAutoRefresh})`)
       const response = await fetch('/api/products')
       
       if (response.ok) {
         const data = await response.json()
         if (data.success && data.products) {
-          console.log(`Auto-refresh: Received ${data.products.length} products`)
+          const currentCount = products.length
+          const newCount = data.products.length
+          
+          console.log(`📊 Product count: ${currentCount} → ${newCount}`)
+          
+          if (newCount !== currentCount) {
+            console.log(`🆕 Product count changed! Updating from ${currentCount} to ${newCount}`)
+          }
+          
           setProducts(data.products || [])
+          
+          // Force a re-render by updating a dummy state
+          if (isAutoRefresh && newCount !== currentCount) {
+            console.log('🔄 Forcing component re-render due to product count change')
+          }
         }
+      } else {
+        console.error('❌ Failed to fetch products:', response.status)
       }
     } catch (error) {
-      console.error('Error fetching products:', error)
+      console.error('❌ Error fetching products:', error)
     } finally {
       if (!isAutoRefresh) {
         setLoading(false)
@@ -367,6 +384,13 @@ export default function ShopPage() {
     // Track category filter
     trackEvent('filter_products', 'ecommerce', categoryId)
     setSelectedCategory(categoryId)
+  }
+
+  const handleManualRefresh = async () => {
+    console.log('🔄 Manual refresh triggered')
+    setRefreshing(true)
+    await fetchProducts(false) // Force a full refresh
+    setRefreshing(false)
   }
 
 
@@ -535,11 +559,23 @@ export default function ShopPage() {
 
       {/* Products Grid */}
       <section className="container-responsive section-spacing">
-        <div className="mb-6">
-          <h2 className="heading-3" style={{ fontFamily: "var(--font-fredoka)" }}>
-            {categories.find((c) => c.id === selectedCategory)?.name}
-          </h2>
-          <p className="body-small text-muted-foreground">{filteredProducts.length} finds available</p>
+        <div className="mb-6 flex justify-between items-center">
+          <div>
+            <h2 className="heading-3" style={{ fontFamily: "var(--font-fredoka)" }}>
+              {categories.find((c) => c.id === selectedCategory)?.name}
+            </h2>
+            <p className="body-small text-muted-foreground">{filteredProducts.length} finds available</p>
+          </div>
+          <Button
+            onClick={handleManualRefresh}
+            disabled={refreshing}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2"
+          >
+            <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
+            {refreshing ? 'Refreshing...' : 'Refresh'}
+          </Button>
         </div>
 
         {loading ? (
