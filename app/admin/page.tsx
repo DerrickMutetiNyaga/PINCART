@@ -294,8 +294,18 @@ export default function AdminDashboard() {
       })
 
       if (response.ok) {
-        setMessage('Product deleted successfully!')
-        loadProducts()
+        const data = await response.json()
+        setMessage(`Product deleted successfully! (Verified: ${data.deleted ? 'Yes' : 'No'})`)
+        
+        // Force immediate refresh
+        setTimeout(() => {
+          loadProducts()
+        }, 100)
+        
+        // Force another refresh after a short delay
+        setTimeout(() => {
+          loadProducts()
+        }, 1000)
       } else {
         setMessage('Failed to delete product')
       }

@@ -7,6 +7,12 @@ import Product from '@/models/Product'
 export async function GET(request: NextRequest) {
   try {
     console.log('👑 ADMIN API: Starting database connection...')
+    console.log('👑 ADMIN API: MONGODB_URI exists:', !!process.env.MONGODB_URI)
+    console.log('👑 ADMIN API: Environment check:', {
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL: process.env.VERCEL,
+      MONGODB_URI_LENGTH: process.env.MONGODB_URI?.length || 0
+    })
     await connectDB()
     console.log('👑 ADMIN API: Database connected successfully')
     
@@ -70,6 +76,18 @@ export async function POST(request: NextRequest) {
     // Verify the product was saved by fetching it back
     const savedProduct = await Product.findById(product._id)
     console.log('✅ Verification - Product exists in DB:', !!savedProduct)
+    
+    // Get total count after creation
+    const totalCount = await Product.countDocuments()
+    console.log('✅ Total products in DB after creation:', totalCount)
+    
+    // Get latest products to verify
+    const latestProducts = await Product.find()
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .select('name createdAt')
+      .lean()
+    console.log('✅ Latest 3 products:', latestProducts)
     
     return NextResponse.json({ 
       success: true, 
@@ -159,9 +177,19 @@ export async function DELETE(request: NextRequest) {
       )
     }
     
+    // Verify deletion by checking if product still exists
+    const verifyDeletion = await Product.findById(id)
+    console.log('🗑️ Product deletion verification:', {
+      productId: id,
+      deleted: !verifyDeletion,
+      stillExists: !!verifyDeletion
+    })
+    
     return NextResponse.json({ 
       success: true,
-      message: 'Product deleted successfully' 
+      message: 'Product deleted successfully',
+      deleted: !verifyDeletion,
+      productId: id
     })
   } catch (error) {
     console.error('❌ Error deleting product:', error)

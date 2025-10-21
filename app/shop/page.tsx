@@ -312,7 +312,23 @@ export default function ShopPage() {
       }
       
       console.log(`🔄 Fetching products... (auto-refresh: ${isAutoRefresh})`)
-      const response = await fetch('/api/products')
+      
+      // Force fresh request with timestamp and random cache buster
+      const timestamp = Date.now()
+      const random = Math.random().toString(36).substring(7)
+      const response = await fetch(`/api/products?t=${timestamp}&r=${random}&force=true&nocache=${Date.now()}`, {
+        method: 'GET',
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
+          'Last-Modified': 'Thu, 01 Jan 1970 00:00:00 GMT',
+          'ETag': '"0"',
+          'Vary': '*'
+        }
+      })
       
       if (response.ok) {
         const data = await response.json()
@@ -321,20 +337,24 @@ export default function ShopPage() {
           const newCount = data.products.length
           
           console.log(`📊 Product count: ${currentCount} → ${newCount}`)
+          console.log(`📊 Product names:`, data.products.map(p => p.name))
           
           if (newCount !== currentCount) {
             console.log(`🆕 Product count changed! Updating from ${currentCount} to ${newCount}`)
           }
           
-          setProducts(data.products || [])
+          // Force state update
+          setProducts([...data.products])
           
           // Force a re-render by updating a dummy state
           if (isAutoRefresh && newCount !== currentCount) {
             console.log('🔄 Forcing component re-render due to product count change')
           }
+        } else {
+          console.error('❌ Invalid response data:', data)
         }
       } else {
-        console.error('❌ Failed to fetch products:', response.status)
+        console.error('❌ Failed to fetch products:', response.status, response.statusText)
       }
     } catch (error) {
       console.error('❌ Error fetching products:', error)

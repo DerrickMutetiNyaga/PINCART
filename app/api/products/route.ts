@@ -5,6 +5,40 @@ import Product from '@/models/Product'
 export async function GET() {
   try {
     console.log('🛍️ PUBLIC API: Starting database connection...')
+    console.log('🛍️ PUBLIC API: MONGODB_URI exists:', !!process.env.MONGODB_URI)
+    console.log('🛍️ PUBLIC API: Environment check:', {
+      NODE_ENV: process.env.NODE_ENV,
+      VERCEL: process.env.VERCEL,
+      MONGODB_URI_LENGTH: process.env.MONGODB_URI?.length || 0
+    })
+    
+    // Force no caching
+    const headers = new Headers()
+    headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0')
+    headers.set('Pragma', 'no-cache')
+    headers.set('Expires', '0')
+    headers.set('Surrogate-Control', 'no-store')
+    headers.set('Last-Modified', 'Thu, 01 Jan 1970 00:00:00 GMT')
+    headers.set('ETag', '"0"')
+    headers.set('Vary', '*')
+    
+    if (!process.env.MONGODB_URI) {
+      console.error('❌ MONGODB_URI is not defined!')
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Database configuration missing',
+          details: 'MONGODB_URI environment variable is not set',
+          environment: {
+            NODE_ENV: process.env.NODE_ENV,
+            VERCEL: process.env.VERCEL,
+            MONGODB_URI_EXISTS: !!process.env.MONGODB_URI
+          }
+        },
+        { status: 500 }
+      )
+    }
+    
     await connectDB()
     console.log('🛍️ PUBLIC API: Database connected successfully')
     
@@ -37,12 +71,28 @@ export async function GET() {
     
     return NextResponse.json({
       success: true,
-      products: transformedProducts
-    })
+      products: transformedProducts,
+      timestamp: new Date().toISOString(),
+      count: transformedProducts.length
+    }, { headers })
   } catch (error) {
     console.error('❌ PUBLIC API Error:', error)
+    console.error('❌ Error details:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    })
     return NextResponse.json(
-      { success: false, error: 'Failed to fetch products' },
+      { 
+        success: false, 
+        error: 'Failed to fetch products',
+        details: error.message,
+        environment: {
+          NODE_ENV: process.env.NODE_ENV,
+          VERCEL: process.env.VERCEL,
+          MONGODB_URI_EXISTS: !!process.env.MONGODB_URI
+        }
+      },
       { status: 500 }
     )
   }
