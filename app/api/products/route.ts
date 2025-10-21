@@ -4,7 +4,9 @@ import Product from '@/models/Product'
 
 export async function GET() {
   try {
+    console.log('🛍️ PUBLIC API: Starting database connection...')
     await connectDB()
+    console.log('🛍️ PUBLIC API: Database connected successfully')
     
     // Get all products from database
     const products = await Product.find()
@@ -12,6 +14,8 @@ export async function GET() {
       .lean()
     
     console.log(`🛍️ PUBLIC API: Found ${products.length} products in database`)
+    console.log(`🛍️ PUBLIC API: Product names:`, products.map(p => p.name))
+    console.log(`🛍️ PUBLIC API: Latest product created:`, products[0]?.createdAt)
     
     // Transform products for client
     const transformedProducts = products.map(product => ({
@@ -29,12 +33,14 @@ export async function GET() {
       shippingEstimate: product.shippingEstimate
     }))
     
+    console.log(`🛍️ PUBLIC API: Returning ${transformedProducts.length} products to client`)
+    
     return NextResponse.json({
       success: true,
       products: transformedProducts
     })
   } catch (error) {
-    console.error('❌ Error fetching products:', error)
+    console.error('❌ PUBLIC API Error:', error)
     return NextResponse.json(
       { success: false, error: 'Failed to fetch products' },
       { status: 500 }

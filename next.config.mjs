@@ -17,17 +17,19 @@ const nextConfig = {
       },
     ],
   },
-  // Disable all caching
+  // COMPLETELY DISABLE ALL CACHING
   experimental: {
     staleTimes: {
       dynamic: 0,
       static: 0,
     },
   },
-  // Disable static optimization
+  // Force no caching
   trailingSlash: false,
-  // Disable ISR and static generation
   output: 'standalone',
+  // Disable all Next.js caching
+  generateEtags: false,
+  poweredByHeader: false,
 }
 
 export default nextConfig

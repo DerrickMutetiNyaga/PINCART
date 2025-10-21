@@ -203,12 +203,12 @@ export default function ShopPage() {
     return () => clearInterval(interval)
   }, [lastChecked])
 
-  // Auto-refresh products every 2 seconds for real-time updates
+  // Auto-refresh products every 1 second for real-time updates
   useEffect(() => {
     const interval = setInterval(() => {
       console.log('🔄 Auto-refreshing products...')
       fetchProducts(true) // Pass true to indicate this is an auto-refresh
-    }, 2000) // Refresh every 2 seconds for real-time updates
+    }, 1000) // Refresh every 1 second for real-time updates
 
     return () => clearInterval(interval)
   }, [])
